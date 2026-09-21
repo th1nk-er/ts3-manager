@@ -3,17 +3,17 @@
     <v-layout justify-center>
       <v-flex lg6 md8 sm8 xs12>
         <v-card>
-          <v-card-title> Add Token </v-card-title>
+          <v-card-title>{{ $t('token.add') }}</v-card-title>
           <v-card-text>
             <v-select
               :items="tokenTypes"
-              label="Type"
+              :label="$t('token.type')"
               v-model="selectedType"
               :disabled="$store.state.query.loading"
             ></v-select>
             <v-autocomplete
               :items="availableGroups"
-              label="Group"
+              :label="$t('entity.group')"
               v-model="selectedGroup"
               :disabled="
                 typeof selectedType === 'undefined' ||
@@ -22,7 +22,7 @@
             ></v-autocomplete>
             <v-autocomplete
               :items="availableChannels"
-              label="Channel"
+              :label="$t('entity.channel')"
               v-model="selectedChannel"
               :disabled="
                 selectedType === 0 ||
@@ -31,12 +31,12 @@
               "
             ></v-autocomplete>
             <v-textarea
-              label="Description"
+              :label="$t('common.description')"
               v-model="tokenDescription"
             ></v-textarea>
             <key-text-field
               v-model="token"
-              label="Generated Privilege Key"
+              :label="$t('token.generated')"
             ></key-text-field>
           </v-card-text>
           <v-card-actions>
@@ -46,9 +46,9 @@
               @click="createToken"
               color="primary"
               :disabled="typeof selectedType === 'undefined'"
-              >Create</v-btn
+              >{{ $t('common.create') }}</v-btn
             >
-            <v-btn text @click="$router.go(-1)" color="primary">Close</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t('common.close') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -65,8 +65,8 @@ export default {
     return {
       token: undefined,
       tokenTypes: [
-        { text: "Server Group", value: 0 },
-        { text: "Channel Group", value: 1 },
+        { text: this.$t("entity.serverGroup"), value: 0 },
+        { text: this.$t("entity.channelGroup"), value: 1 },
       ],
       selectedType: undefined,
       selectedGroup: undefined,
@@ -98,7 +98,7 @@ export default {
     copyToClipboard() {
       this.$clipboard(this.token);
 
-      this.$toast.info("Token Copied To Clipboard");
+      this.$toast.info(this.$t("feedback.copiedToClipboard"));
     },
     async createToken() {
       try {
@@ -109,7 +109,7 @@ export default {
           tokendescription: this.tokenDescription,
         });
 
-        this.$toast.success("Token successfully created");
+        this.$toast.success(this.$t("feedback.tokenCreated"));
 
         this.token = response.token;
       } catch (err) {

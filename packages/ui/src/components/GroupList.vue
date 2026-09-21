@@ -5,16 +5,11 @@
         <v-card>
           <v-list>
             <template v-if="regularGroups.length">
-              <v-subheader>Regular Groups</v-subheader>
-              <v-list-item
-                v-for="regularGroup in regularGroups"
-                :key="regularGroup.sgid || regularGroup.cgid"
-              >
+              <v-subheader>{{ $t("group.regular") }}</v-subheader>
+              <v-list-item v-for="regularGroup in regularGroups" :key="regularGroup.sgid || regularGroup.cgid">
                 <v-list-item-content>
                   <v-list-item-title>{{ regularGroup.name }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    ({{ regularGroup.sgid || regularGroup.cgid }})
-                  </v-list-item-subtitle>
+                  <v-list-item-subtitle> ({{ regularGroup.sgid || regularGroup.cgid }}) </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-menu>
@@ -25,13 +20,13 @@
                     </template>
                     <v-list>
                       <v-list-item @click="editGroup(regularGroup)">
-                        <v-list-item-title> Edit Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.editGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="openCopyDialog(regularGroup)">
-                        <v-list-item-title> Copy Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.copyGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="confirmDeletion(regularGroup)">
-                        <v-list-item-title> Delete Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.deleteGroup") }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -42,20 +37,11 @@
             </template>
 
             <template v-if="templateGroups.length">
-              <v-subheader>Template Groups</v-subheader>
-              <v-list-item
-                v-for="templateGroup in templateGroups"
-                :key="templateGroup.sgid || templateGroup.cgid"
-              >
+              <v-subheader>{{ $t("group.template") }}</v-subheader>
+              <v-list-item v-for="templateGroup in templateGroups" :key="templateGroup.sgid || templateGroup.cgid">
                 <v-list-item-content>
-                  <v-list-item-title>{{
-                    templateGroup.name
-                  }}</v-list-item-title>
-                  <v-list-item-subtitle
-                    >({{
-                      templateGroup.sgid || templateGroup.cgid
-                    }})</v-list-item-subtitle
-                  >
+                  <v-list-item-title>{{ templateGroup.name }}</v-list-item-title>
+                  <v-list-item-subtitle>({{ templateGroup.sgid || templateGroup.cgid }})</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-menu>
@@ -66,13 +52,13 @@
                     </template>
                     <v-list>
                       <v-list-item @click="editGroup(templateGroup)">
-                        <v-list-item-title> Edit Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.editGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="openCopyDialog(templateGroup)">
-                        <v-list-item-title> Copy Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.copyGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="confirmDeletion(templateGroup)">
-                        <v-list-item-title> Delete Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.deleteGroup") }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -83,20 +69,11 @@
             <template v-if="serverQueryGroups.length">
               <v-divider></v-divider>
 
-              <v-subheader>ServerQuery Groups</v-subheader>
-              <v-list-item
-                v-for="serverQueryGroup in serverQueryGroups"
-                :key="serverQueryGroup.sgid || serverQueryGroup.cgid"
-              >
+              <v-subheader>{{ $t("group.query") }}</v-subheader>
+              <v-list-item v-for="serverQueryGroup in serverQueryGroups" :key="serverQueryGroup.sgid || serverQueryGroup.cgid">
                 <v-list-item-content>
-                  <v-list-item-title>{{
-                    serverQueryGroup.name
-                  }}</v-list-item-title>
-                  <v-list-item-subtitle
-                    >({{
-                      serverQueryGroup.sgid || serverQueryGroup.cgid
-                    }})</v-list-item-subtitle
-                  >
+                  <v-list-item-title>{{ serverQueryGroup.name }}</v-list-item-title>
+                  <v-list-item-subtitle>({{ serverQueryGroup.sgid || serverQueryGroup.cgid }})</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-menu>
@@ -107,13 +84,13 @@
                     </template>
                     <v-list>
                       <v-list-item @click="editGroup(serverQueryGroup)">
-                        <v-list-item-title> Edit Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.editGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="openCopyDialog(serverQueryGroup)">
-                        <v-list-item-title> Copy Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.copyGroup") }}</v-list-item-title>
                       </v-list-item>
                       <v-list-item @click="confirmDeletion(serverQueryGroup)">
-                        <v-list-item-title> Delete Group </v-list-item-title>
+                        <v-list-item-title>{{ $t("action.deleteGroup") }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -123,64 +100,43 @@
           </v-list>
         </v-card>
       </v-col>
-      <v-btn
-        fab
-        color="primary"
-        fixed
-        bottom
-        right
-        dark
-        @click="addDialog = true"
-      >
+      <v-btn fab color="primary" fixed bottom right dark @click="addDialog = true">
         <v-icon>add</v-icon>
       </v-btn>
       <v-dialog v-model="removeDialog" max-width="500px">
         <v-card>
-          <v-card-title> Confirm Delete Group </v-card-title>
+          <v-card-title>{{ $t("group.confirmDelete") }}</v-card-title>
           <v-card-text>
-            Please confirm deleting the group <b>{{ selectedGroup.name }}</b>
-            <v-checkbox
-              v-model="forceDeletion"
-              label="Delete even if there are clients in the group"
-            ></v-checkbox>
+            {{ $t("confirm.deleteGroup") }} <b>{{ selectedGroup.name }}</b>
+            <v-checkbox v-model="forceDeletion" :label="$t('group.forceDelete')"></v-checkbox>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="removeDialog = false"
-              >Abort</v-btn
-            >
-            <v-btn text color="primary" @click="removeGroup"
-              >Delete Group</v-btn
-            >
+            <v-btn text color="primary" @click="removeDialog = false">{{ $t("group.abort") }}</v-btn>
+            <v-btn text color="primary" @click="removeGroup">{{ $t("action.deleteGroup") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
       <v-dialog v-model="addDialog" max-width="500px">
         <v-card>
-          <v-card-title> Add Group </v-card-title>
+          <v-card-title>{{ $t("action.addGroup") }}</v-card-title>
           <v-card-text>
-            <v-text-field v-model="groupName" label="Group Name"></v-text-field>
-            <v-select
-              label="Group Type"
-              :items="groupTypes"
-              v-model="selectedGroupType"
-            ></v-select>
+            <v-text-field v-model="groupName" :label="$t('group.name')"></v-text-field>
+            <v-select :label="$t('group.type')" :items="groupTypes" v-model="selectedGroupType"></v-select>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="addGroup">Add</v-btn>
-            <v-btn text color="primary" @click="addDialog = false"
-              >Cancel</v-btn
-            >
+            <v-btn text color="primary" @click="addGroup">{{ $t("action.addGroup") }}</v-btn>
+            <v-btn text color="primary" @click="addDialog = false">{{ $t("common.cancel") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
       <v-dialog v-model="copyDialog" max-width="500px">
         <v-card>
-          <v-card-title>Copy Group</v-card-title>
+          <v-card-title>{{ $t("action.copyGroup") }}</v-card-title>
           <v-card-text>
             <v-select
-              label="Copy Group"
+              :label="$t('action.copyGroup')"
               :items="allGroups"
               v-model="selectedGroup"
               :item-disabled="disabledSourceGroup"
@@ -191,21 +147,14 @@
               <template #item="{ item }">
                 <v-list-item-content>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    ({{ item.sgid || item.cgid }})
-                  </v-list-item-subtitle>
+                  <v-list-item-subtitle> ({{ item.sgid || item.cgid }}) </v-list-item-subtitle>
                 </v-list-item-content>
               </template>
             </v-select>
             <v-row class="px-3">
-              <v-checkbox
-                label="Overwrite"
-                hide-details
-                class="mr-3 shrink"
-                v-model="overwriteGroup"
-              ></v-checkbox>
+              <v-checkbox :label="$t('group.overwrite')" hide-details class="mr-3 shrink" v-model="overwriteGroup"></v-checkbox>
               <v-select
-                label="Target Group"
+                :label="$t('group.target')"
                 :disabled="!overwriteGroup"
                 :items="allGroups"
                 item-text="name"
@@ -217,32 +166,18 @@
                 <template #item="{ item }">
                   <v-list-item-content>
                     <v-list-item-title>{{ item.name }}</v-list-item-title>
-                    <v-list-item-subtitle>
-                      ({{ item.sgid || item.cgid }})
-                    </v-list-item-subtitle>
+                    <v-list-item-subtitle> ({{ item.sgid || item.cgid }}) </v-list-item-subtitle>
                   </v-list-item-content>
                 </template>
               </v-select>
             </v-row>
-            <v-text-field
-              label="Target Group Name"
-              :disabled="overwriteGroup"
-              v-model="targetGroupName"
-              autofocus
-            ></v-text-field>
-            <v-select
-              label="Target Group Type"
-              :items="groupTypes"
-              v-model="selectedTargetGroupType"
-              :disabled="overwriteGroup"
-            ></v-select>
+            <v-text-field :label="$t('group.targetName')" :disabled="overwriteGroup" v-model="targetGroupName" autofocus></v-text-field>
+            <v-select :label="$t('group.targetType')" :items="groupTypes" v-model="selectedTargetGroupType" :disabled="overwriteGroup"></v-select>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="copyGroup">OK</v-btn>
-            <v-btn text color="primary" @click="copyDialog = false"
-              >Cancel</v-btn
-            >
+            <v-btn text color="primary" @click="copyGroup">{{ $t("common.ok") }}</v-btn>
+            <v-btn text color="primary" @click="copyDialog = false">{{ $t("common.cancel") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -265,9 +200,9 @@ export default {
       forceDeletion: false, // Delete group even if there are clients
       selectedGroupType: 1,
       groupTypes: [
-        { text: "Regular Group", value: 1 },
-        { text: "Template Group", value: 0 },
-        { text: "ServerQuery Group", value: 2 },
+        { text: this.$t("option.regularGroup"), value: 1 },
+        { text: this.$t("option.templateGroup"), value: 0 },
+        { text: this.$t("option.queryGroup"), value: 2 },
       ],
       overwriteGroup: false,
       selectedTargetGroup: {},
@@ -278,13 +213,13 @@ export default {
   computed: {
     allGroups() {
       return [
-        { header: "Regular Groups" },
+        { header: this.$t("group.regular") },
         ...this.regularGroups,
         { divider: true },
-        { header: "Template Groups" },
+        { header: this.$t("group.template") },
         ...this.templateGroups,
         { divider: true },
-        { header: "ServerQuery Groups" },
+        { header: this.$t("group.query") },
         ...this.serverQueryGroups,
       ];
     },
@@ -305,27 +240,14 @@ export default {
       this.overwriteGroup = false;
     },
     copyGroup() {
-      this.$emit(
-        "copy",
-        this.selectedGroup,
-        this.selectedTargetGroup,
-        this.targetGroupName,
-        this.overwriteGroup,
-        this.selectedTargetGroupType
-      );
+      this.$emit("copy", this.selectedGroup, this.selectedTargetGroup, this.targetGroupName, this.overwriteGroup, this.selectedTargetGroupType);
       this.copyDialog = false;
     },
     disabledSourceGroup(group) {
-      return (
-        (group.sgid && group.sgid === this.selectedTargetGroup.sgid) ||
-        (group.cgid && group.cgid === this.selectedTargetGroup.cgid)
-      );
+      return (group.sgid && group.sgid === this.selectedTargetGroup.sgid) || (group.cgid && group.cgid === this.selectedTargetGroup.cgid);
     },
     disabledTargetGroup(group) {
-      return (
-        (group.sgid && group.sgid === this.selectedGroup.sgid) ||
-        (group.cgid && group.cgid === this.selectedGroup.cgid)
-      );
+      return (group.sgid && group.sgid === this.selectedGroup.sgid) || (group.cgid && group.cgid === this.selectedGroup.cgid);
     },
     confirmDeletion(group) {
       this.selectedGroup = group;
@@ -346,11 +268,11 @@ export default {
     getGroupType(type) {
       switch (type) {
         case 0:
-          return "Template Group";
+          return this.$t("option.templateGroup");
         case 1:
-          return "Regular Group";
+          return this.$t("option.regularGroup");
         case 2:
-          return "ServerQuery Group";
+          return this.$t("option.queryGroup");
       }
     },
   },

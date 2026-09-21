@@ -1,20 +1,19 @@
 <template lang="html">
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
-      <v-card-title
-        >Delete {{ item.type === 0 ? "Folder" : "File" }}</v-card-title
-      >
+      <v-card-title>
+        {{ $t("file.deleteTitle", { type: item.type === 0 ? $t("entity.folder") : $t("entity.file") }) }}
+      </v-card-title>
       <v-card-text v-if="item.type === 0">
-        Do you really want to delete this folder? All files inside the deleted
-        folder will be lost.
+        {{ $t("confirm.deleteFolder") }}
       </v-card-text>
       <v-card-text v-else>
-        Do you really want to delete this file?
+        {{ $t("confirm.deleteFile") }}
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="deleteFile" color="primary">Yes</v-btn>
-        <v-btn text @click="dialog = false" color="primary">No</v-btn>
+        <v-btn text @click="deleteFile" color="primary">{{ $t("common.yes") }}</v-btn>
+        <v-btn text @click="dialog = false" color="primary">{{ $t("common.no") }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

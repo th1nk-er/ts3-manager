@@ -17,7 +17,7 @@
             <v-switch v-model="showNotifications"></v-switch>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Enable Notifications</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.enableNotifications') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -25,7 +25,7 @@
       <v-list v-if="showNotifications">
         <v-list-item v-if="!countNotifications">
           <v-list-item-content>
-            <v-list-item-title>No Notifications</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.noNotifications') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -170,8 +170,9 @@ export default {
         ) {
           this.createNotification({
             link: this.URL.ts3Manager[1],
-            title: `New TS3-Manager <b>${(() =>
-              this.latestTSMRelease.name)()}</b> Is Out Now`,
+            title: this.$t("feedback.tsManagerUpdate", {
+              version: this.latestTSMRelease.name,
+            }),
             icon: "mdi-update",
           });
         }
@@ -184,8 +185,9 @@ export default {
         ) {
           this.createNotification({
             link: `https://teamspeak.com`,
-            title: `New TeamSpeak Server Version <b>${(() =>
-              this.latestTeamSpeakVersion)()}</b> Available`,
+            title: this.$t("feedback.teamSpeakUpdate", {
+              version: this.latestTeamSpeakVersion,
+            }),
             icon: "mdi-update",
           });
         }

@@ -1,13 +1,13 @@
 <template lang="html">
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
-      <v-card-title
-        >Rename {{ item.type === 0 ? "Folder" : "File" }}</v-card-title
-      >
+      <v-card-title>
+        {{ $t('file.renameTitle', { type: item.type === 0 ? $t('entity.folder') : $t('entity.file') }) }}
+      </v-card-title>
       <v-card-text>
         <v-text-field
           v-model="newFileName"
-          :label="item.type === 0 ? 'Folder' : 'File'"
+          :label="item.type === 0 ? $t('entity.folder') : $t('entity.file')"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
@@ -17,9 +17,9 @@
           @click="renameFile"
           color="primary"
           :disabled="newFileName === item.name"
-          >OK</v-btn
+          >{{ $t('common.ok') }}</v-btn
         >
-        <v-btn text @click="dialog = false" color="primary">Cancel</v-btn>
+        <v-btn text @click="dialog = false" color="primary">{{ $t('common.cancel') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -6,6 +6,36 @@
         v-if="connected"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
+      <v-menu offset-y open-on-hover>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            :aria-label="$t('locale.label')"
+          >
+            <v-icon>mdi-translate</v-icon>
+          </v-btn>
+        </template>
+        <v-card class="locale-menu-card">
+          <v-list dense nav>
+            <v-list-item
+              v-for="option in localeOptions"
+              :key="option.value"
+              :input-value="option.value === $i18n.locale"
+              class="locale-option"
+              :class="{
+                'locale-option--active': option.value === $i18n.locale,
+              }"
+              @click="$emit('locale-change', option.value)"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ option.text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
       <dark-mode-switch></dark-mode-switch>
       <file-upload-icon v-if="connected"></file-upload-icon>
       <bell-icon v-if="connected"></bell-icon>
@@ -27,7 +57,7 @@
             <v-list-item-icon>
               <v-badge
                 color="error"
-                :value="entry.title === 'Chat' && $store.getters.unreadMessages"
+                :value="entry.titleKey === 'navigation.chat' && $store.getters.unreadMessages"
               >
                 <template #badge>
                   <span>{{ $store.getters.unreadMessages }}</span>
@@ -37,7 +67,7 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>
-                {{ entry.title }}
+                {{ $t(entry.titleKey) }}
                 <v-icon v-if="entry.experimental">mdi-test-tube</v-icon>
               </v-list-item-title>
             </v-list-item-content>
@@ -48,7 +78,7 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ entry.title }}
+                    {{ $t(entry.titleKey) }}
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -66,7 +96,7 @@
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ subEntry.title }}
+                  {{ $t(subEntry.titleKey) }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -92,109 +122,109 @@ export default {
       drawer: null,
       menuEntries: [
         {
-          title: "Server List",
+          titleKey: "navigation.serverList",
           icon: "dns",
           route: { name: "servers" },
         },
         {
-          title: "Server Viewer",
+          titleKey: "navigation.serverViewer",
           icon: "remove_red_eye",
           route: { name: "serverviewer" },
         },
         {
-          title: "Chat",
+          titleKey: "navigation.chat",
           icon: "mail_outline",
           route: { name: "chat" },
         },
         {
-          title: "File Browser",
+          titleKey: "navigation.fileBrowser",
           icon: "mdi-folder",
           route: { name: "files" },
         },
         {
-          title: "Server Log",
+          titleKey: "navigation.serverLog",
           icon: "mdi-file-document-outline",
           route: { name: "logs" },
         },
         {
-          title: "Backup/Restore",
+          titleKey: "navigation.backupRestore",
           icon: "settings_backup_restore",
           route: { name: "snapshot" },
         },
         {
-          title: "Server Query",
+          titleKey: "navigation.serverQuery",
           icon: "mdi-console",
           route: { name: "console" },
         },
         {
-          title: "Privilege Keys",
+          titleKey: "navigation.privilegeKeys",
           icon: "mdi-key",
           route: { name: "tokens" },
         },
         {
-          title: "API Keys",
+          titleKey: "navigation.apiKeys",
           icon: "mdi-shield-key",
           route: { name: "apikeys" },
         },
         {
-          title: "Ban List",
+          titleKey: "navigation.banList",
           icon: "not_interested",
           route: { name: "bans" },
         },
         {
-          title: "Complaints List",
+          titleKey: "navigation.complaintsList",
           icon: "warning",
           route: { name: "complaints" },
         },
 
         {
-          title: "List All Clients",
+          titleKey: "navigation.clients",
           icon: "person",
           route: { name: "clients" },
         },
         {
-          title: "Server Groups",
+          titleKey: "navigation.serverGroups",
           icon: "group",
           route: { name: "servergroups" },
         },
         {
-          title: "Channel Groups",
+          titleKey: "navigation.channelGroups",
           icon: "mdi-hexagon-slice-4",
           route: { name: "channelgroups" },
         },
         {
-          title: "Permissions",
+          titleKey: "navigation.permissions",
           icon: "mdi-format-section",
           submenu: [
             {
-              title: "Server Group",
+              titleKey: "navigation.serverGroup",
               icon: "group",
               route: { name: "permissions-servergroup" },
             },
             {
-              title: "Client Permissions",
+              titleKey: "navigation.clientPermissions",
               icon: "person",
               route: { name: "permissions-client" },
             },
             {
-              title: "Channel Permissions",
+              titleKey: "navigation.channelPermissions",
               icon: "mdi-hexagon-slice-4",
               route: { name: "permissions-channel" },
             },
             {
-              title: "Channel Groups",
+              titleKey: "navigation.channelGroups",
               icon: "mdi-hexagon-slice-4",
               route: { name: "permissions-channelgroup" },
             },
             {
-              title: "Channel Client Permissions",
+              titleKey: "navigation.channelClientPermissions",
               icon: "mdi-hexagon-slice-4",
               route: { name: "permissions-channelclient" },
             },
           ],
         },
         {
-          title: "Logout",
+          titleKey: "navigation.logout",
           icon: "exit_to_app",
           route: { name: "logout" },
         },
@@ -202,6 +232,13 @@ export default {
     };
   },
   computed: {
+    localeOptions() {
+      return [
+        { value: "en", text: this.$t("locale.en") },
+        { value: "zh-CN", text: this.$t("locale.zhCN") },
+        { value: "zh-TW", text: this.$t("locale.zhTW") },
+      ];
+    },
     connected() {
       return this.$store.state.query.connected;
     },
@@ -215,3 +252,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.locale-menu-card {
+  min-width: 160px;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+.locale-option--active,
+.locale-option:hover {
+  color: var(--v-primary-base);
+}
+</style>

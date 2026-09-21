@@ -10,7 +10,7 @@
               @click="deleteDialog = true"
             >
               <v-icon left>delete</v-icon>
-              Remove
+              {{ $t('apiKey.remove') }}
             </v-btn>
           </v-card-title>
           <v-card-text>
@@ -34,14 +34,14 @@
     </v-btn>
     <v-dialog v-model="deleteDialog" max-width="500px">
       <v-card>
-        <v-card-title> Delete API Key </v-card-title>
+        <v-card-title>{{ $t('apiKey.delete') }}</v-card-title>
         <v-card-text>
-          Do you really want to delete the selected API key(s)?
+          {{ $t('apiKey.confirmDelete') }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="deleteDialog = false">No</v-btn>
-          <v-btn text color="primary" @click="removeApiKeys">Yes</v-btn>
+          <v-btn text color="primary" @click="deleteDialog = false">{{ $t('common.no') }}</v-btn>
+          <v-btn text color="primary" @click="removeApiKeys">{{ $t('common.yes') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,25 +54,25 @@ export default {
     return {
       headers: [
         {
-          text: "Client",
+          text: this.$t("entity.client"),
           sortable: true,
           align: "start",
           value: "clientNickname",
         },
         {
-          text: "Scope",
+          text: this.$t("apiKey.scope"),
           sortable: true,
           align: "start",
           value: "scope",
         },
         {
-          text: "Created At",
+          text: this.$t("apiKey.createdAt"),
           sortable: true,
           align: "start",
           value: "createdAt",
         },
         {
-          text: "Expires At",
+          text: this.$t("apiKey.expiresAt"),
           sortable: true,
           align: "start",
           value: "expiresAt",
@@ -96,8 +96,8 @@ export default {
           clientNickname: client ? client.clientNickname : "serveradmin",
           cldbid: key.cldbid,
           scope: key.scope,
-          createdAt: new Date(key.createdAt * 1000).toLocaleString(),
-          expiresAt: new Date(key.expiresAt * 1000).toLocaleString(),
+          createdAt: new Date(key.createdAt * 1000).toLocaleString(this.$i18n.locale),
+          expiresAt: new Date(key.expiresAt * 1000).toLocaleString(this.$i18n.locale),
         };
       });
     },

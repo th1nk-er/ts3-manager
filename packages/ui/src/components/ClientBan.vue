@@ -1,5 +1,5 @@
 <template>
-  <ban-form title="Ban Client" @addban="banClient" :ban="form"></ban-form>
+  <ban-form :title="$t('action.banClient')" @addban="banClient" :ban="form"></ban-form>
 </template>
 
 <script>

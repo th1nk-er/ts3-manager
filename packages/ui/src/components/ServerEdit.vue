@@ -3,15 +3,15 @@
     <v-layout justify-center>
       <v-flex lg6 md8 sm8 xs12>
         <v-card>
-          <v-card-title>Manage Virtual Server</v-card-title>
+          <v-card-title>{{ $t('serverSettings.manage') }}</v-card-title>
           <v-card-text>
             <v-text-field
-              label="Server Name"
+              :label="$t('serverSettings.name')"
               v-model="serverInfo.virtualserverName"
               :disabled="$store.state.query.loading"
             ></v-text-field>
             <v-text-field
-              label="Password"
+              :label="$t('common.password')"
               v-model="serverInfo.virtualserverPassword"
               :disabled="$store.state.query.loading"
               type="password"
@@ -19,7 +19,7 @@
             <v-layout justify-space-between>
               <v-flex xs5>
                 <v-text-field
-                  label="Maximum Clients"
+                  :label="$t('serverSettings.maximumClients')"
                   v-model="serverInfo.virtualserverMaxclients"
                   :disabled="$store.state.query.loading"
                   type="number"
@@ -27,7 +27,7 @@
               </v-flex>
               <v-flex xs5>
                 <v-text-field
-                  label="Reserved Slots"
+                  :label="$t('serverSettings.reservedSlots')"
                   v-model="serverInfo.virtualserverReservedSlots"
                   :disabled="$store.state.query.loading"
                   type="number"
@@ -35,35 +35,35 @@
               </v-flex>
             </v-layout>
             <v-textarea
-              label="Welcome Message"
+              :label="$t('serverSettings.welcomeMessage')"
               v-model="serverInfo.virtualserverWelcomemessage"
               :disabled="$store.state.query.loading"
             ></v-textarea>
 
             <v-expansion-panels accordion flat>
               <v-expansion-panel>
-                <v-expansion-panel-header> Host </v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('serverSettings.host') }}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card outlined>
-                    <v-card-subtitle>Host Message</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('hostSettings.message') }}</v-card-subtitle>
                     <v-card-text>
                       <v-text-field
-                        label="Message"
+                        :label="$t('log.message')"
                         v-model="serverInfo.virtualserverHostmessage"
                         :disabled="$store.state.query.loading"
                       ></v-text-field>
                       <v-select
-                        label="Message Mode"
+                        :label="$t('hostSettings.messageMode')"
                         v-model="serverInfo.virtualserverHostmessageMode"
                         :items="messageModes"
                       ></v-select>
                     </v-card-text>
                   </v-card>
                   <v-card class="mt-2" outlined>
-                    <v-card-subtitle>Host Banner</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('hostSettings.banner') }}</v-card-subtitle>
                     <v-card-text>
                       <v-text-field
-                        label="Banner Gfx URL"
+                        :label="$t('hostSettings.bannerUrl')"
                         v-model="serverInfo.virtualserverHostbannerGfxUrl"
                         :disabled="$store.state.query.loading"
                       ></v-text-field>
@@ -75,7 +75,7 @@
                       <v-layout justify-space-between>
                         <v-flex xs4>
                           <v-text-field
-                            label="Gfx Interval"
+                            :label="$t('hostSettings.interval')"
                             v-model="
                               serverInfo.virtualserverHostbannerGfxInterval
                             "
@@ -85,7 +85,7 @@
                         </v-flex>
                         <v-flex xs6>
                           <v-select
-                            label="Resize"
+                            :label="$t('hostSettings.resize')"
                             :items="bannerModes"
                             v-model="serverInfo.virtualserverHostbannerMode"
                           ></v-select>
@@ -94,10 +94,10 @@
                     </v-card-text>
                   </v-card>
                   <v-card class="my-2" outlined>
-                    <v-card-subtitle>Host Button</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('hostSettings.button') }}</v-card-subtitle>
                     <v-card-text>
                       <v-text-field
-                        label="Tooltip"
+                        :label="$t('hostSettings.tooltip')"
                         v-model="serverInfo.virtualserverHostbuttonTooltip"
                         :disabled="$store.state.query.loading"
                       ></v-text-field>
@@ -107,7 +107,7 @@
                         :disabled="$store.state.query.loading"
                       ></v-text-field>
                       <v-text-field
-                        label="Icon URL"
+                        :label="$t('hostSettings.iconUrl')"
                         v-model="serverInfo.virtualserverHostbuttonGfxUrl"
                         :disabled="$store.state.query.loading"
                       ></v-text-field>
@@ -116,13 +116,13 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header> Transfers </v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('serverSettings.transfers') }}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card outlined>
-                    <v-card-subtitle>Upload</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('hostSettings.upload') }}</v-card-subtitle>
                     <v-card-text>
                       <v-text-field
-                        label="Bandwidth Limit"
+                        :label="$t('hostSettings.bandwidth')"
                         v-model="
                           serverInfo.virtualserverMaxUploadTotalBandwidth
                         "
@@ -134,7 +134,7 @@
                         </template>
                       </v-text-field>
                       <v-text-field
-                        label="Upload Quota"
+                        :label="$t('hostSettings.uploadQuota')"
                         v-model="serverInfo.virtualserverUploadQuota"
                         :disabled="$store.state.query.loading"
                         type="number"
@@ -146,10 +146,10 @@
                     </v-card-text>
                   </v-card>
                   <v-card class="my-2" outlined>
-                    <v-card-subtitle>Download</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('hostSettings.download') }}</v-card-subtitle>
                     <v-card-text>
                       <v-text-field
-                        label="Bandwidth Limit"
+                        :label="$t('hostSettings.bandwidth')"
                         v-model="
                           serverInfo.virtualserverMaxDownloadTotalBandwidth
                         "
@@ -161,7 +161,7 @@
                         </template>
                       </v-text-field>
                       <v-text-field
-                        label="Download Quota"
+                        :label="$t('hostSettings.downloadQuota')"
                         v-model="serverInfo.virtualserverDownloadQuota"
                         :disabled="$store.state.query.loading"
                         type="number"
@@ -176,13 +176,13 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  Anti-Flood
+                  {{ $t('serverAdvanced.antiFlood') }}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card class="mb-2" outlined>
                     <v-card-text>
                       <v-text-field
-                        label="Reduced point per tick"
+                        :label="$t('serverAdvanced.reducedPoints')"
                         v-model="
                           serverInfo.virtualserverAntifloodPointsTickReduce
                         "
@@ -190,7 +190,7 @@
                         type="number"
                       ></v-text-field>
                       <v-text-field
-                        label="Points needed to block commands"
+                        :label="$t('serverAdvanced.commandBlockPoints')"
                         v-model="
                           serverInfo.virtualserverAntifloodPointsNeededCommand_block
                         "
@@ -198,7 +198,7 @@
                         type="number"
                       ></v-text-field>
                       <v-text-field
-                        label="Points needed to block IP"
+                        :label="$t('serverAdvanced.ipBlockPoints')"
                         v-model="
                           serverInfo.virtualserverAntifloodPointsNeededIp_block
                         "
@@ -210,12 +210,12 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header> Security </v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('serverSettings.security') }}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card class="mb-2" outlined>
                     <v-card-text>
                       <v-text-field
-                        label="Needed Security Level"
+                        :label="$t('serverAdvanced.neededSecurityLevel')"
                         v-model="
                           serverInfo.virtualserverNeededIdentitySecurityLevel
                         "
@@ -223,7 +223,7 @@
                         type="number"
                       ></v-text-field>
                       <v-select
-                        label="Channel voice data encrypption"
+                        :label="$t('serverAdvanced.voiceEncryption')"
                         v-model="serverInfo.virtualserverCodecEncryptionMode"
                         :items="encryptionModes"
                       ></v-select>
@@ -232,17 +232,17 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header> Misc </v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('serverAdvanced.misc') }}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card outlined>
-                    <v-card-subtitle>Default Groups</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('serverSettings.defaultGroups') }}</v-card-subtitle>
                     <v-card-text>
                       <v-autocomplete
                         :items="serverGroups"
                         item-text="name"
                         item-value="sgid"
                         v-model="serverInfo.virtualserverDefaultServerGroup"
-                        label="Server Group"
+                        :label="$t('entity.serverGroup')"
                         :disabled="$store.state.query.loading"
                       >
                         <template #selection="{ item }">
@@ -257,7 +257,7 @@
                         item-text="name"
                         item-value="cgid"
                         v-model="serverInfo.virtualserverDefaultChannelGroup"
-                        label="Channel Group"
+                        :label="$t('entity.channelGroup')"
                         :disabled="$store.state.query.loading"
                       >
                         <template #selection="{ item }">
@@ -274,7 +274,7 @@
                         v-model="
                           serverInfo.virtualserverDefaultChannelAdminGroup
                         "
-                        label="Channel Admin Group"
+                        :label="$t('serverSettings.channelAdminGroup')"
                         :disabled="$store.state.query.loading"
                       >
                         <template #selection="{ item }">
@@ -287,12 +287,12 @@
                     </v-card-text>
                   </v-card>
                   <v-card class="mt-2" outlined>
-                    <v-card-subtitle>Complain</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('serverAdvanced.complaints') }}</v-card-subtitle>
                     <v-card-text>
                       <v-layout justify-space-between wrap>
                         <v-flex xs5 md3>
                           <v-text-field
-                            label="Autoban Count"
+                            :label="$t('serverAdvanced.autobanCount')"
                             :disabled="$store.state.query.loading"
                             v-model="
                               serverInfo.virtualserverComplainAutobanCount
@@ -302,7 +302,7 @@
                         </v-flex>
                         <v-flex xs5 md3>
                           <v-text-field
-                            label="Autoban Time"
+                            :label="$t('serverAdvanced.autobanTime')"
                             :disabled="$store.state.query.loading"
                             v-model="
                               serverInfo.virtualserverComplainAutobanTime
@@ -310,13 +310,13 @@
                             type="number"
                           >
                             <template #append>
-                              <div>sec</div>
+                              <div>{{ $t('hostSettings.seconds') }}</div>
                             </template>
                           </v-text-field>
                         </v-flex>
                         <v-flex xs5 md3>
                           <v-text-field
-                            label="Remove Time"
+                            :label="$t('serverAdvanced.removeTime')"
                             :disabled="$store.state.query.loading"
                             v-model="
                               serverInfo.virtualserverComplainRemoveTime
@@ -324,7 +324,7 @@
                             type="number"
                           >
                             <template #append>
-                              <div>sec</div>
+                              <div>{{ $t('hostSettings.seconds') }}</div>
                             </template>
                           </v-text-field>
                         </v-flex>
@@ -334,7 +334,7 @@
                   <v-card class="my-2" outlined>
                     <v-card-text>
                       <v-text-field
-                        label="Min clients in channel before silence"
+                        :label="$t('serverAdvanced.minClientsBeforeSilence')"
                         :disabled="$store.state.query.loading"
                         v-model="
                           serverInfo.virtualserverMinClientsInChannel_beforeForcedSilence
@@ -342,7 +342,7 @@
                         type="number"
                       ></v-text-field>
                       <v-text-field
-                        label="Priority Speaker dim modificator"
+                        :label="$t('serverAdvanced.prioritySpeakerDim')"
                         :disabled="$store.state.query.loading"
                         v-model="
                           serverInfo.virtualserverPrioritySpeakerDimmModificator
@@ -350,7 +350,7 @@
                         type="number"
                       ></v-text-field>
                       <v-text-field
-                        label="Delete delay for temporary channel"
+                        :label="$t('serverAdvanced.tempChannelDeleteDelay')"
                         :disabled="$store.state.query.loading"
                         v-model="
                           serverInfo.virtualserverChannelTempDeleteDelay_default
@@ -358,12 +358,12 @@
                         type="number"
                       ></v-text-field>
                       <v-text-field
-                        label="Phonetic Name"
+                        :label="$t('serverAdvanced.phoneticName')"
                         :disabled="$store.state.query.loading"
                         v-model="serverInfo.virtualserverNamePhonetic"
                       ></v-text-field>
                       <v-checkbox
-                        label="Enable reporting to serverlist"
+                        :label="$t('serverAdvanced.reportToServerList')"
                         v-model="weblistEnabled"
                       ></v-checkbox>
                     </v-card-text>
@@ -371,21 +371,21 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header> Logs </v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('serverSettings.logs') }}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card class="mb-2" outlined>
-                    <v-card-subtitle>Enable Logging For</v-card-subtitle>
+                    <v-card-subtitle>{{ $t('serverSettings.enableLogging') }}</v-card-subtitle>
                     <v-card-text>
                       <v-checkbox
-                        label="Clients"
+                        :label="$t('navigation.clients')"
                         v-model="logClient"
                       ></v-checkbox>
                       <v-checkbox
-                        label="Channel"
+                        :label="$t('entity.channel')"
                         v-model="logChannel"
                       ></v-checkbox>
                       <v-checkbox
-                        label="Server"
+                        :label="$t('entity.server')"
                         v-model="logServer"
                       ></v-checkbox>
                       <v-checkbox
@@ -393,11 +393,11 @@
                         v-model="logQuery"
                       ></v-checkbox>
                       <v-checkbox
-                        label="Permissions"
+                        :label="$t('navigation.permissions')"
                         v-model="logPermissions"
                       ></v-checkbox>
                       <v-checkbox
-                        label="File transfer"
+                        :label="$t('serverSettings.fileTransfer')"
                         v-model="logFileTransfer"
                       ></v-checkbox>
                     </v-card-text>
@@ -413,15 +413,15 @@
               :disabled="this.$store.state.query.loading"
               color="primary"
               @click="saveChanges"
-              >OK
+              >{{ $t('common.ok') }}
             </v-btn>
-            <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t('common.cancel') }}</v-btn>
             <v-btn
               text
               :disabled="this.$store.state.query.loading"
               color="primary"
               @click="applyChanges"
-              >Apply
+              >{{ $t('common.apply') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -437,20 +437,20 @@ export default {
       serverInfo: {},
       serverInfoCopy: {},
       messageModes: [
-        { text: "No message", value: 0 },
-        { text: "Show message in log", value: 1 },
-        { text: "Show modal message", value: 2 },
-        { text: "Modal message and exit", value: 3 },
+        { text: this.$t("serverOption.noMessage"), value: 0 },
+        { text: this.$t("serverOption.logMessage"), value: 1 },
+        { text: this.$t("serverOption.modalMessage"), value: 2 },
+        { text: this.$t("serverOption.modalExit"), value: 3 },
       ],
       bannerModes: [
-        { text: "Do not adjust", value: 0 },
-        { text: "Adjust but ignore aspect ratio", value: 1 },
-        { text: "Adjust and keep aspect ratio", value: 2 },
+        { text: this.$t("serverOption.noAdjust"), value: 0 },
+        { text: this.$t("serverOption.ignoreAspect"), value: 1 },
+        { text: this.$t("serverOption.keepAspect"), value: 2 },
       ],
       encryptionModes: [
-        { text: "Configure per Channel", value: 0 },
-        { text: "Globally Off", value: 1 },
-        { text: "Globally On", value: 2 },
+        { text: this.$t("serverOption.perChannel"), value: 0 },
+        { text: this.$t("serverOption.globallyOff"), value: 1 },
+        { text: this.$t("serverOption.globallyOn"), value: 2 },
       ],
       serverGroups: [],
       channelGroups: [],

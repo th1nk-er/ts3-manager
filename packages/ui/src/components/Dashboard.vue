@@ -55,10 +55,10 @@ export default {
       clientList: [],
       serverInfo: {},
       daysPicker: [
-        { text: "Last 30 Days", value: 30 },
-        { text: "Last 60 Days", value: 60 },
-        { text: "Last 90 Days", value: 90 },
-        { text: "All Days", value: 0 },
+        { text: this.$t("option.last30"), value: 30 },
+        { text: this.$t("option.last60"), value: 60 },
+        { text: this.$t("option.last90"), value: 90 },
+        { text: this.$t("option.allDays"), value: 0 },
       ],
     };
   },

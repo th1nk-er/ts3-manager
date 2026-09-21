@@ -4,20 +4,14 @@
       <v-flex md10 xs12 offset-md1>
         <v-card>
           <v-card-title>
-            <v-btn
-              color="error"
-              :disabled="!Boolean(selectedTableItems.length)"
-              @click="openDeleteDialog(selectedTableItems)"
-            >
+            <v-btn color="error" :disabled="!Boolean(selectedTableItems.length)" @click="openDeleteDialog(selectedTableItems)">
               <v-icon left>delete</v-icon>
-              Remove
+              {{ $t("apiKey.remove") }}
             </v-btn>
           </v-card-title>
           <v-card-text>
             <v-data-table
-              :no-data-text="
-                $store.state.query.loading ? '...loading' : $vuetify.noDataText
-              "
+              :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
               :headers="headers"
               :items="tokens"
               :footer-props="{ 'items-per-page-options': rowsPerPage }"
@@ -34,16 +28,16 @@
                   </template>
                   <v-list>
                     <v-list-item @click="openDeleteDialog([item])">
-                      <v-list-item-title> Delete Token </v-list-item-title>
+                      <v-list-item-title>{{ $t("token.delete") }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="copyToClipboard(item.token)">
-                      <v-list-item-title> Copy Token </v-list-item-title>
+                      <v-list-item-title>{{ $t("token.copy") }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
               </template>
               <template #item.tokenCreated="{ item }">
-                {{ new Date(item.tokenCreated * 1000).toLocaleString() }}
+                {{ new Date(item.tokenCreated * 1000).toLocaleString($i18n.locale) }}
               </template>
             </v-data-table>
           </v-card-text>
@@ -52,25 +46,17 @@
 
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
-          <v-card-title> Delete Token </v-card-title>
-          <v-card-text> Do you really want to delete this token? </v-card-text>
+          <v-card-title>{{ $t("token.delete") }}</v-card-title>
+          <v-card-text>{{ $t("token.confirmDelete") }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="dialog = false">No</v-btn>
-            <v-btn text color="primary" @click="deleteToken">Yes</v-btn>
+            <v-btn text color="primary" @click="dialog = false">{{ $t("common.no") }}</v-btn>
+            <v-btn text color="primary" @click="deleteToken">{{ $t("common.yes") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
-      <v-btn
-        fab
-        color="primary"
-        fixed
-        bottom
-        right
-        dark
-        :to="{ name: 'token-add' }"
-      >
+      <v-btn fab color="primary" fixed bottom right dark :to="{ name: 'token-add' }">
         <v-icon>add</v-icon>
       </v-btn>
     </v-layout>
@@ -85,12 +71,12 @@ export default {
       tokens: [],
       headers: [
         { text: "", value: "actions", align: "start", sortable: false },
-        { text: "Privilege Key", value: "token" },
-        { text: "Type", value: "tokenType" },
-        { text: "Group", value: "tokenId1" },
-        { text: "Channel", value: "tokenId2" },
-        { text: "Created", value: "tokenCreated" },
-        { text: "Description", value: "tokenDescription" },
+        { text: this.$t("token.privilegeKey"), value: "token" },
+        { text: this.$t("token.type"), value: "tokenType" },
+        { text: this.$t("entity.group"), value: "tokenId1" },
+        { text: this.$t("entity.channel"), value: "tokenId2" },
+        { text: this.$t("token.created"), value: "tokenCreated" },
+        { text: this.$t("common.description"), value: "tokenDescription" },
       ],
       rowsPerPage: [25, 50, 75, -1],
       selectedTableItems: [],
@@ -127,7 +113,7 @@ export default {
     copyToClipboard(token) {
       this.$clipboard(token);
 
-      this.$toast.info("Token Copied To Clipboard");
+      this.$toast.info(this.$t("feedback.copiedToClipboard"));
     },
     async init() {
       try {

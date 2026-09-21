@@ -3,28 +3,11 @@
     <v-row justify="center">
       <v-col lg="6" md="8" sm="8" cols="12">
         <v-card>
-          <v-card-title>Add API Key</v-card-title>
+          <v-card-title>{{ $t("apiKey.add") }}</v-card-title>
           <v-card-text>
-            <v-select
-              label="Scope"
-              :items="scopes"
-              v-model="selectedScope"
-            ></v-select>
-            <v-text-field
-              label="Lifetime"
-              type="number"
-              suffix="days"
-              v-model="lifetime"
-            ></v-text-field>
-            <v-autocomplete
-              label="Client"
-              chips
-              :items="dbClients"
-              item-text="clientNickname"
-              item-value="cldbid"
-              v-model="selectedClient"
-              deletable-chips
-            >
+            <v-select :label="$t('apiKey.scope')" :items="scopes" v-model="selectedScope"></v-select>
+            <v-text-field :label="$t('apiKey.lifetime')" type="number" :suffix="$t('option.days')" v-model="lifetime"></v-text-field>
+            <v-autocomplete :label="$t('entity.client')" chips :items="dbClients" item-text="clientNickname" item-value="cldbid" v-model="selectedClient" deletable-chips>
               <template #item="{ item }">
                 <v-list-item-content>
                   <v-list-item-title>
@@ -36,22 +19,14 @@
                 </v-list-item-content>
               </template>
             </v-autocomplete>
-            <key-text-field
-              v-model="apiKey"
-              label="Generated API Key"
-            ></key-text-field>
+            <key-text-field v-model="apiKey" :label="$t('apiKey.generated')"></key-text-field>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              text
-              color="primary"
-              :disabled="selectedScope === undefined"
-              @click="addApiKey"
-            >
-              Create
+            <v-btn text color="primary" :disabled="selectedScope === undefined" @click="addApiKey">
+              {{ $t("common.create") }}
             </v-btn>
-            <v-btn text @click="$router.go(-1)" color="primary">Close</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t("common.close") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -67,9 +42,9 @@ export default {
   data() {
     return {
       scopes: [
-        { text: "Manage", value: "manage" },
-        { text: "Write", value: "write" },
-        { text: "Read", value: "read" },
+        { text: this.$t("option.manage"), value: "manage" },
+        { text: this.$t("option.write"), value: "write" },
+        { text: this.$t("option.read"), value: "read" },
       ],
       selectedScope: undefined,
       dbClients: [],
@@ -94,9 +69,7 @@ export default {
         // 14 days by default
         if (this.lifetime) options.lifetime = this.lifetime;
 
-        this.apiKey = await this.$TeamSpeak
-          .execute("apikeyadd", options)
-          .then((res) => res[0].apikey);
+        this.apiKey = await this.$TeamSpeak.execute("apikeyadd", options).then((res) => res[0].apikey);
       } catch (err) {
         this.$toast.error(err.message);
       }

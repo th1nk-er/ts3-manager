@@ -6,45 +6,25 @@
           <v-card-title>
             <v-row align="center">
               <v-col cols="3" xl="1">
-                <v-checkbox
-                  v-model="level.debug"
-                  label="Debug"
-                  color="primary"
-                ></v-checkbox>
+                <v-checkbox v-model="level.debug" :label="$t('log.debug')" color="primary"></v-checkbox>
               </v-col>
               <v-col cols="3" xl="1">
-                <v-checkbox
-                  v-model="level.error"
-                  label="Errors"
-                  color="error"
-                ></v-checkbox>
+                <v-checkbox v-model="level.error" :label="$t('log.errors')" color="error"></v-checkbox>
               </v-col>
               <v-col cols="3" xl="1">
-                <v-checkbox
-                  v-model="level.warning"
-                  label="Warnings"
-                  color="warning"
-                ></v-checkbox>
+                <v-checkbox v-model="level.warning" :label="$t('log.warnings')" color="warning"></v-checkbox>
               </v-col>
               <v-col cols="3" xl="1">
-                <v-checkbox
-                  v-model="level.info"
-                  label="Info"
-                  color="info"
-                ></v-checkbox>
+                <v-checkbox v-model="level.info" :label="$t('log.info')" color="info"></v-checkbox>
               </v-col>
               <v-col cols="12" sm="6" xl="3">
-                <v-select
-                  :items="timezones"
-                  v-model="selectedTimezone"
-                  label="Timestamp"
-                ></v-select>
+                <v-select :items="timezones" v-model="selectedTimezone" :label="$t('log.timestamp')"></v-select>
               </v-col>
               <v-col cols="12" sm="6" xl="4">
-                <v-text-field label="Filter" v-model="filter"></v-text-field>
+                <v-text-field :label="$t('common.filter')" v-model="filter"></v-text-field>
               </v-col>
               <v-col cols="12" xl="1">
-                <v-btn color="primary" @click="reloadLogView">Reload</v-btn>
+                <v-btn color="primary" @click="reloadLogView">{{ $t("common.reload") }}</v-btn>
               </v-col>
             </v-row>
           </v-card-title>
@@ -53,17 +33,13 @@
             <v-data-table
               :items="parsedLogView"
               :headers="headers"
-              :no-data-text="
-                $store.state.query.loading ? '...loading' : $vuetify.noDataText
-              "
+              :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
               hide-default-footer
               :search="filter"
               :items-per-page="itemsPerPage"
             >
               <template #item.level="{ item }">
-                <v-chip :color="levelColors[item.level.toLowerCase()]">{{
-                  item.level
-                }}</v-chip>
+                <v-chip :color="levelColors[item.level.toLowerCase()]">{{ item.level }}</v-chip>
               </template>
             </v-data-table>
           </v-card-text>
@@ -83,22 +59,22 @@ export default {
       filter: "",
       headers: [
         {
-          text: "Timestamp",
+          text: this.$t("log.timestamp"),
           value: "timestamp",
           sortable: false,
         },
         {
-          text: "Level",
+          text: this.$t("log.level"),
           value: "level",
           sortable: false,
         },
         {
-          text: "Channel",
+          text: this.$t("entity.channel"),
           value: "channel",
           sortable: false,
         },
         {
-          text: "Message",
+          text: this.$t("log.message"),
           value: "msg",
           sortable: false,
         },
@@ -118,11 +94,11 @@ export default {
       selectedTimezone: "local",
       timezones: [
         {
-          text: "UTC Time",
+          text: this.$t("option.utcTime"),
           value: "utc",
         },
         {
-          text: "Locale Time",
+          text: this.$t("option.localTime"),
           value: "local",
         },
       ],
@@ -139,10 +115,7 @@ export default {
         let [timestamp, level, channel, sid, ...msg] = l.split("|");
 
         return {
-          timestamp:
-            this.selectedTimezone === "utc"
-              ? this.getUTCDateString(timestamp)
-              : this.getLocaleDateString(timestamp),
+          timestamp: this.selectedTimezone === "utc" ? this.getUTCDateString(timestamp) : this.getLocaleDateString(timestamp),
           level: level.trim(),
           channel: channel.trim(),
           sid: parseInt(sid),
@@ -211,8 +184,7 @@ export default {
      */
     getLocaleDate(timestamp) {
       let localeDate = new Date(timestamp);
-      let milliseconds =
-        localeDate.getTime() + -localeDate.getTimezoneOffset() * 60 * 1000;
+      let milliseconds = localeDate.getTime() + -localeDate.getTimezoneOffset() * 60 * 1000;
 
       localeDate.setTime(milliseconds);
 

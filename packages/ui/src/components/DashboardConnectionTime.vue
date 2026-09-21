@@ -1,9 +1,9 @@
 <template lang="html">
   <v-card>
-    <v-card-title>Most Active Clients</v-card-title>
+    <v-card-title>{{ $t("dashboard.mostActiveClients") }}</v-card-title>
     <v-card-text>
       <canvas v-if="loaded" ref="chart"></canvas>
-      <span v-else>Loading Data...</span>
+      <span v-else>{{ $t("common.loading") }}</span>
     </v-card-text>
   </v-card>
 </template>
@@ -26,8 +26,7 @@ export default {
   },
   computed: {
     clientConnections() {
-      let regex =
-        /^client (?<action>connected|disconnected) \'(?<clientNickname>.*)\'\(id:(?<clientDbId>.*)\).*$/;
+      let regex = /^client (?<action>connected|disconnected) \'(?<clientNickname>.*)\'\(id:(?<clientDbId>.*)\).*$/;
 
       return this.logView
         .filter(({ msg }) => regex.test(msg))
@@ -57,22 +56,14 @@ export default {
 
           acc[index].connectionLogs.push({ timestamp, action });
 
-          if (
-            action === "disconnected" &&
-            acc[index].connectionLogs.length > 1
-          ) {
+          if (action === "disconnected" && acc[index].connectionLogs.length > 1) {
             let lastIndex = acc[index].connectionLogs.length - 1;
 
-            let lastConnectedTime =
-              acc[index].connectionLogs[lastIndex - 1].timestamp;
-            let lastDisconnectedTime =
-              acc[index].connectionLogs[lastIndex].timestamp;
-            let lastConnectionDuration =
-              lastDisconnectedTime.getTime() - lastConnectedTime.getTime();
+            let lastConnectedTime = acc[index].connectionLogs[lastIndex - 1].timestamp;
+            let lastDisconnectedTime = acc[index].connectionLogs[lastIndex].timestamp;
+            let lastConnectionDuration = lastDisconnectedTime.getTime() - lastConnectedTime.getTime();
 
-            acc[index].totalConnectionTime += Math.round(
-              lastConnectionDuration / 1000 / 60 / 60
-            );
+            acc[index].totalConnectionTime += Math.round(lastConnectionDuration / 1000 / 60 / 60);
           }
 
           return acc;
@@ -91,7 +82,7 @@ export default {
             data: {
               datasets: [
                 {
-                  label: "Time spent (hours)",
+                  label: this.$t("dashboard.timeSpent"),
                   data: this.clientConnections,
                 },
               ],

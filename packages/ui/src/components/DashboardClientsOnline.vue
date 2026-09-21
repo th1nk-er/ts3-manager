@@ -2,7 +2,7 @@
 <template lang="html">
   <v-card>
     <v-card-title>
-      Clients Online ({{ serverInfo.virtualserverClientsonline }}/{{serverInfo.virtualserverMaxclients}})
+      {{ $t('dashboard.clientsOnline') }} ({{ serverInfo.virtualserverClientsonline }}/{{serverInfo.virtualserverMaxclients}})
     </v-card-title>
     <v-card-text>
       <v-list>

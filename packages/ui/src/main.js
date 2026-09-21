@@ -20,6 +20,7 @@ import "./registerServiceWorker";
 import store from "./store";
 import router from "./router";
 import socket from "./socket";
+import i18n from "./i18n";
 
 (async () => {
   NProgress.configure({
@@ -56,5 +57,6 @@ import socket from "./socket";
     router,
     store,
     vuetify,
+    i18n,
   }).$mount("#app");
 })();

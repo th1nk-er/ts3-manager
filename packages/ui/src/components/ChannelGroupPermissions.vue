@@ -16,7 +16,7 @@
                 :items="allGroups"
                 v-model="selectedGroupId"
                 @change="changeChannelGroup"
-                label="Channel Group"
+                :label="$t('entity.channelGroup')"
                 :disabled="$store.state.query.loading"
                 item-text="name"
                 item-value="cgid"
@@ -53,13 +53,13 @@ export default {
   computed: {
     allGroups() {
       return [
-        { header: "Regular Groups" },
+        { header: this.$t("group.regular") },
         ...this.regularGroups,
         { divider: true },
-        { header: "Template Groups" },
+        { header: this.$t("group.template") },
         ...this.templateGroups,
         { divider: true },
-        { header: "ServerQuery Groups" },
+        { header: this.$t("group.query") },
         ...this.serverQueryGroups,
       ];
     },

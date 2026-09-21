@@ -10,7 +10,7 @@
       @click="setServerList"
       @change="switchServer"
       item-text="virtualserverName"
-      placeholder="Select A Server"
+      :placeholder="$t('misc.selectServer')"
     >
       <template #item="{ item }">
         {{ item.virtualserverName }} (sid: {{ item.virtualserverId }})

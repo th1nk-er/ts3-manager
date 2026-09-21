@@ -2,6 +2,7 @@ const state = {
   rememberLogin: true,
   notifications: true,
   darkMode: true,
+  locale: null,
 };
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   setDarkMode(state, status) {
     state.darkMode = status;
+  },
+  setLocale(state, locale) {
+    state.locale = locale;
   },
 };
 

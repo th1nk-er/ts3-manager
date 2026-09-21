@@ -15,7 +15,7 @@
               <v-autocomplete
                 :items="channelSelection"
                 v-model="selectedChannel"
-                label="Channel"
+                :label="$t('entity.channel')"
                 @change="changeChannel"
                 :disabled="$store.state.query.loading"
               ></v-autocomplete>
@@ -24,7 +24,7 @@
               <v-autocomplete
                 :items="clientSelection"
                 v-model="selectedClient"
-                label="Client"
+                :label="$t('entity.client')"
                 @change="changeClient"
                 :disabled="$store.state.query.loading"
               ></v-autocomplete>

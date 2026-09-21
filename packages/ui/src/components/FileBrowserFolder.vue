@@ -15,7 +15,7 @@
             <v-icon>mdi-upload</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Upload File</v-list-item-title>
+            <v-list-item-title>{{ $t('action.uploadFile') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="openSubfolderDialog">
@@ -23,7 +23,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Create Subfolder</v-list-item-title>
+            <v-list-item-title>{{ $t('action.createSubfolder') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- Disable option if it is a channel  -->
@@ -35,7 +35,7 @@
             <v-icon>mdi-pencil</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Rename Folder</v-list-item-title>
+            <v-list-item-title>{{ $t('action.renameFolder') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- Disable option if it is a channel  -->
@@ -47,7 +47,7 @@
             <v-icon>mdi-delete</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Delete Folder</v-list-item-title>
+            <v-list-item-title>{{ $t('common.delete') }} {{ $t('entity.folder') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -55,18 +55,18 @@
 
     <v-dialog v-model="subfolderDialog" max-width="500px">
       <v-card>
-        <v-card-title>Create Folder</v-card-title>
+        <v-card-title>{{ $t('action.createFolder') }}</v-card-title>
         <v-card-text>
           <v-text-field
             v-model="newSubfolderName"
-            label="Folder Name"
+            :label="$t('entity.folder') + ' ' + $t('common.name')"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="createSubfolder" color="primary">OK</v-btn>
+          <v-btn text @click="createSubfolder" color="primary">{{ $t('common.ok') }}</v-btn>
           <v-btn text @click="subfolderDialog = false" color="primary"
-            >Cancel</v-btn
+            >{{ $t('common.cancel') }}</v-btn
           >
         </v-card-actions>
       </v-card>

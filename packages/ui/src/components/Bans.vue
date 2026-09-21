@@ -6,29 +6,19 @@
           <v-card-title>
             <v-layout wrap justify-space-between>
               <v-flex sm6 xs12>
-                <v-btn
-                  color="error"
-                  :disabled="!Boolean(selectedTableItems.length)"
-                  @click="openDialog(selectedTableItems)"
-                >
+                <v-btn color="error" :disabled="!Boolean(selectedTableItems.length)" @click="openDialog(selectedTableItems)">
                   <v-icon left>delete</v-icon>
-                  Remove
+                  {{ $t("misc.remove") }}
                 </v-btn>
               </v-flex>
               <v-flex md4 sm6 xs12>
-                <v-text-field
-                  append-icon="search"
-                  label="Search"
-                  v-model="filter"
-                ></v-text-field>
+                <v-text-field append-icon="search" :label="$t('common.search')" v-model="filter"></v-text-field>
               </v-flex>
             </v-layout>
           </v-card-title>
           <v-card-text>
             <v-data-table
-              :no-data-text="
-                $store.state.query.loading ? '...loading' : $vuetify.noDataText
-              "
+              :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
               :headers="headers"
               :items="preparedBanlist"
               v-model="selectedTableItems"
@@ -45,13 +35,11 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-item
-                      :to="{ name: 'ban-edit', params: { banid: item.banid } }"
-                    >
-                      <v-list-item-title> Edit Ban </v-list-item-title>
+                    <v-list-item :to="{ name: 'ban-edit', params: { banid: item.banid } }">
+                      <v-list-item-title>{{ $t("action.editBan") }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="openDialog([item])">
-                      <v-list-item-title> Remove Ban </v-list-item-title>
+                      <v-list-item-title>{{ $t("action.removeBan") }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -62,11 +50,7 @@
                 <span v-if="item.uid">uid = {{ item.uid }}, </span>
               </template>
               <template #item.duration="{ item }">
-                {{
-                  item.duration === 0
-                    ? "infinite"
-                    : calcExpiryDate(item.created, item.duration)
-                }}
+                {{ item.duration === 0 ? $t("misc.infinite") : calcExpiryDate(item.created, item.duration) }}
               </template>
             </v-data-table>
           </v-card-text>
@@ -77,14 +61,14 @@
       </v-btn>
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
-          <v-card-title> Delete Ban </v-card-title>
+          <v-card-title>{{ $t("action.deleteBan") }}</v-card-title>
           <v-card-text>
-            Do you really want to delete the selected ban(s)?
+            {{ $t("confirm.deleteBans") }}
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="dialog = false">No</v-btn>
-            <v-btn text color="primary" @click="deleteBans">Yes</v-btn>
+            <v-btn text color="primary" @click="dialog = false">{{ $t("common.no") }}</v-btn>
+            <v-btn text color="primary" @click="deleteBans">{{ $t("common.yes") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -103,15 +87,15 @@ export default {
           value: "actions",
         },
         {
-          text: "Name/IP/UID",
+          text: this.$t("misc.nameIpUid"),
           value: "nameIpUid",
         },
         {
-          text: "Reason",
+          text: this.$t("entity.reason"),
           value: "reason",
         },
         {
-          text: "Expires",
+          text: this.$t("apiKey.expiresAt"),
           value: "duration",
         },
       ],
@@ -144,7 +128,7 @@ export default {
       return this.$TeamSpeak.execute("banlist");
     },
     calcExpiryDate(created, duration) {
-      return new Date(created * 1000 + duration * 1000).toLocaleString();
+      return new Date(created * 1000 + duration * 1000).toLocaleString(this.$i18n.locale);
     },
     addBan() {
       this.$router.push({

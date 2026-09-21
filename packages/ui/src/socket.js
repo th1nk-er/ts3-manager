@@ -2,6 +2,7 @@ import io from "socket.io-client";
 import Vue from "vue";
 import store from "./store";
 import router from "./router";
+import { translate } from "./i18n/messages";
 
 let connectErrorToast = {};
 let connectErrorShown = false;
@@ -37,7 +38,10 @@ socket.on("connect", () => {
   if (connectErrorShown) {
     connectErrorToast.dismiss();
 
-    Vue.prototype.$toast.success("Reconnected");
+    Vue.prototype.$toast.success(
+      translate(store.state.settings.locale, "feedback.reconnected") ||
+        "Reconnected"
+    );
 
     connectErrorShown = false;
   }

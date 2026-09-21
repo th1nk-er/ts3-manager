@@ -1,5 +1,5 @@
 <template>
-  <ban-form title="Edit Ban" @addban="save" :ban="ban"></ban-form>
+  <ban-form :title="$t('action.editBan')" @addban="save" :ban="ban"></ban-form>
 </template>
 
 <script>

@@ -12,7 +12,7 @@
         <template #activator="{ on }">
           <v-icon v-on="on" @click="copyToClipboard">mdi-content-copy</v-icon>
         </template>
-        <span>Copy To Clipboard</span>
+        <span>{{ $t('feedback.copiedToClipboard') }}</span>
       </v-tooltip>
     </template>
   </v-text-field>
@@ -28,7 +28,7 @@ export default {
     copyToClipboard() {
       this.$clipboard(this.value);
 
-      this.$toast.info("Copied To Clipboard");
+      this.$toast.info(this.$t("feedback.copiedToClipboard"));
     },
   },
 };

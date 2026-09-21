@@ -11,30 +11,20 @@
             }"
           >
             <v-list subheader class="my-2" width="100%">
-              <v-subheader>Channels</v-subheader>
+              <v-subheader>{{ $t("misc.channels") }}</v-subheader>
               <v-list-item-group :value="selectedChannelItem">
                 <channel
                   v-for="channel in channelList"
                   :key="channel.cid"
                   :channel="channel"
                   @click="switchTextChannel(channel.cid)"
-                  :badgeValue="
-                    countUnreadMessages({ target: channel.cid, targetmode: 2 })
-                  "
+                  :badgeValue="countUnreadMessages({ target: channel.cid, targetmode: 2 })"
                 >
                 </channel>
               </v-list-item-group>
 
-              <v-subheader>Clients</v-subheader>
-              <client
-                v-for="client in clientList"
-                :client="client"
-                :badgeValue="
-                  countUnreadMessages({ target: client.clid, targetmode: 1 })
-                "
-                @click="openTextPrivate(client)"
-              >
-              </client>
+              <v-subheader>{{ $t("navigation.clients") }}</v-subheader>
+              <client v-for="client in clientList" :client="client" :badgeValue="countUnreadMessages({ target: client.clid, targetmode: 1 })" @click="openTextPrivate(client)"> </client>
             </v-list>
             <v-divider vertical></v-divider>
           </div>
@@ -55,10 +45,7 @@
               <v-tabs v-model="selectedTab" fixed-tabs show-arrows>
                 <!-- Currently used server text messages (not closeable)-->
                 <v-tab>
-                  <v-badge
-                    color="error"
-                    :value="countUnreadMessages(textServerTab)"
-                  >
+                  <v-badge color="error" :value="countUnreadMessages(textServerTab)">
                     <template #badge>
                       {{ countUnreadMessages(textServerTab) }}
                     </template>
@@ -67,10 +54,7 @@
                 </v-tab>
                 <!-- Currently joined channel text messages (not closeable)-->
                 <v-tab>
-                  <v-badge
-                    color="error"
-                    :value="countUnreadMessages(textChannelTab)"
-                  >
+                  <v-badge color="error" :value="countUnreadMessages(textChannelTab)">
                     <template #badge>
                       {{ countUnreadMessages(textChannelTab) }}
                     </template>
@@ -78,23 +62,12 @@
                   </v-badge>
                 </v-tab>
                 <!-- Private client text messages (closeable) -->
-                <v-tab
-                  v-for="(textPrivateTab, index) in textPrivateTabs"
-                  :key="index + 2"
-                >
-                  <v-badge
-                    color="error"
-                    :value="countUnreadMessages(textPrivateTab)"
-                  >
+                <v-tab v-for="(textPrivateTab, index) in textPrivateTabs" :key="index + 2">
+                  <v-badge color="error" :value="countUnreadMessages(textPrivateTab)">
                     <template #badge>
                       {{ countUnreadMessages(textPrivateTab) }}
                     </template>
-                    <span
-                      >{{ textPrivateTab.name
-                      }}<v-icon @click.stop="closeTextPrivate(textPrivateTab)"
-                        >close</v-icon
-                      ></span
-                    >
+                    <span>{{ textPrivateTab.name }}<v-icon @click.stop="closeTextPrivate(textPrivateTab)">close</v-icon></span>
                   </v-badge>
                 </v-tab>
               </v-tabs>
@@ -105,15 +78,13 @@
                 <!-- Server text message history -->
                 <v-tab-item :transition="false" :reverse-transition="false">
                   <p class="text-center text--secondary">
-                    Server Text Messages
+                    {{ $t("misc.serverTextMessages") }}
                   </p>
                   <div v-for="message in serverTextMessages">
                     <div>
-                      <v-icon v-if="message.sender.clid === queryUser.clientId"
-                        >arrow_upward</v-icon
-                      >
+                      <v-icon v-if="message.sender.clid === queryUser.clientId">arrow_upward</v-icon>
                       <v-icon v-else>arrow_downward</v-icon>
-                      {{ new Date(message.meta.timestamp).toLocaleString() }}
+                      {{ new Date(message.meta.timestamp).toLocaleString($i18n.locale) }}
                       <b>{{ message.sender.clientNickname }}</b>
                     </div>
                     <div>
@@ -124,15 +95,13 @@
                 <!-- Channel text message history -->
                 <v-tab-item :transition="false" :reverse-transition="false">
                   <p class="text-center text--secondary">
-                    Channel Text Messages
+                    {{ $t("misc.channelTextMessages") }}
                   </p>
                   <div v-for="message in channelTextMessages">
                     <div>
-                      <v-icon v-if="message.sender.clid === queryUser.clientId"
-                        >arrow_upward</v-icon
-                      >
+                      <v-icon v-if="message.sender.clid === queryUser.clientId">arrow_upward</v-icon>
                       <v-icon v-else>arrow_downward</v-icon>
-                      {{ new Date(message.meta.timestamp).toLocaleString() }}
+                      {{ new Date(message.meta.timestamp).toLocaleString($i18n.locale) }}
                       <b>{{ message.sender.clientNickname }}</b>
                     </div>
                     <div>
@@ -141,24 +110,16 @@
                   </div>
                 </v-tab-item>
                 <!-- Private text message histories -->
-                <v-tab-item
-                  v-for="(textPrivateTab, index) in textPrivateTabs"
-                  :key="index + 2"
-                  :transition="false"
-                  :reverse-transition="false"
-                >
+                <v-tab-item v-for="(textPrivateTab, index) in textPrivateTabs" :key="index + 2" :transition="false" :reverse-transition="false">
                   <p class="text-center text--secondary">
-                    Private Text Messages
+                    {{ $t("misc.privateTextMessages") }}
                   </p>
                   <div v-for="message in privateTextMessages">
                     <div v-if="message.target === textPrivateTab.target">
                       <div>
-                        <v-icon
-                          v-if="message.sender.clid === queryUser.clientId"
-                          >arrow_upward</v-icon
-                        >
+                        <v-icon v-if="message.sender.clid === queryUser.clientId">arrow_upward</v-icon>
                         <v-icon v-else>arrow_downward</v-icon>
-                        {{ new Date(message.meta.timestamp).toLocaleString() }}
+                        {{ new Date(message.meta.timestamp).toLocaleString($i18n.locale) }}
                         <b>{{ message.sender.clientNickname }}</b>
                       </div>
                       <div>
@@ -171,13 +132,7 @@
             </div>
 
             <div>
-              <v-text-field
-                :append-icon="'send'"
-                label="Send Message"
-                v-model="message"
-                @click:append="sendMessage"
-                @keyup="keyPressed"
-              ></v-text-field>
+              <v-text-field :append-icon="'send'" :label="$t('misc.sendMessage')" v-model="message" @click:append="sendMessage" @keyup="keyPressed"></v-text-field>
             </div>
           </div>
         </v-sheet>
@@ -238,9 +193,7 @@ export default {
   },
   computed: {
     selectedChannelItem() {
-      return this.channelList.findIndex(
-        (channel) => channel.cid === this.channelId
-      );
+      return this.channelList.findIndex((channel) => channel.cid === this.channelId);
     },
     currentJoinedChannel() {
       return this.channelList.find((channel) => channel.cid == this.channelId);
@@ -254,8 +207,7 @@ export default {
     },
     textChannelTab() {
       return {
-        name:
-          this.currentJoinedChannel && this.currentJoinedChannel.channelName,
+        name: this.currentJoinedChannel && this.currentJoinedChannel.channelName,
         target: this.currentJoinedChannel && this.currentJoinedChannel.cid,
         targetmode: 2,
       };
@@ -269,27 +221,17 @@ export default {
     },
     serverTextMessages() {
       return this.$store.state.chat.messages.filter((message) => {
-        return (
-          message.targetmode === 3 &&
-          message.serverId === this.$store.state.query.serverId
-        );
+        return message.targetmode === 3 && message.serverId === this.$store.state.query.serverId;
       });
     },
     channelTextMessages() {
       return this.$store.state.chat.messages.filter((message) => {
-        return (
-          message.targetmode === 2 &&
-          message.target === this.textChannelTab.target &&
-          message.serverId === this.$store.state.query.serverId
-        );
+        return message.targetmode === 2 && message.target === this.textChannelTab.target && message.serverId === this.$store.state.query.serverId;
       });
     },
     privateTextMessages() {
       return this.$store.state.chat.messages.filter((message) => {
-        return (
-          message.targetmode === 1 &&
-          message.serverId === this.$store.state.query.serverId
-        );
+        return message.targetmode === 1 && message.serverId === this.$store.state.query.serverId;
       });
     },
     selectedChat() {
@@ -331,11 +273,7 @@ export default {
       let { target, targetmode } = textChannel;
 
       return this.$store.state.chat.messages.filter((message) => {
-        return (
-          message.target === target &&
-          message.targetmode === targetmode &&
-          message.meta.unread
-        );
+        return message.target === target && message.targetmode === targetmode && message.meta.unread;
       }).length;
     },
     getClientList() {
@@ -390,30 +328,24 @@ export default {
       }
     },
     closeTextPrivate(chat) {
-      let index = this.textPrivateTargets
-        .map((client) => client.clid)
-        .indexOf(chat.target);
+      let index = this.textPrivateTargets.map((client) => client.clid).indexOf(chat.target);
 
       this.selectedTab = 1 + index;
 
       this.textPrivateTargets.splice(index, 1);
     },
     openTextPrivate(client, focus = true) {
+      if (!client || client.clid === undefined) return;
+
       this.openChatOnMobile();
 
       let openedTargets = this.textPrivateTargets.map((client) => client.clid);
 
       // Create the chat only if it is not already open
-      if (!openedTargets.includes(client.clid))
-        this.textPrivateTargets.push(client);
+      if (!openedTargets.includes(client.clid)) this.textPrivateTargets.push(client);
 
       // Focus tab
-      if (focus)
-        this.selectedTab =
-          2 +
-          this.textPrivateTargets
-            .map((client) => client.clid)
-            .indexOf(client.clid);
+      if (focus) this.selectedTab = 2 + this.textPrivateTargets.map((client) => client.clid).indexOf(client.clid);
     },
     scrollBottom() {
       // Timeout is a workaround.
@@ -431,35 +363,15 @@ export default {
       this.$TeamSpeak.on("channeldelete", this.updateChannelList);
     },
     removeEventListeners() {
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "clientconnect",
-        this.updateClientList
-      );
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "clientconnect",
-        this.getSingleClientAvatar
-      );
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "clientdisconnect",
-        this.updateClientList
-      );
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "channeledit",
-        this.updateChannelList
-      );
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "channelcreate",
-        this.updateChannelList
-      );
-      this.$TeamSpeak.__proto__.removeEventListener(
-        "channeldelete",
-        this.updateChannelList
-      );
+      this.$TeamSpeak.__proto__.removeEventListener("clientconnect", this.updateClientList);
+      this.$TeamSpeak.__proto__.removeEventListener("clientconnect", this.getSingleClientAvatar);
+      this.$TeamSpeak.__proto__.removeEventListener("clientdisconnect", this.updateClientList);
+      this.$TeamSpeak.__proto__.removeEventListener("channeledit", this.updateChannelList);
+      this.$TeamSpeak.__proto__.removeEventListener("channelcreate", this.updateChannelList);
+      this.$TeamSpeak.__proto__.removeEventListener("channeldelete", this.updateChannelList);
     },
     getSingleClientAvatar(e) {
-      this.$store.dispatch("getClientAvatars", [
-        e.detail.client.clientDatabaseId,
-      ]);
+      this.$store.dispatch("getClientAvatars", [e.detail.client.clientDatabaseId]);
     },
     getAllClientAvatars() {
       this.$store.dispatch(
@@ -508,11 +420,7 @@ export default {
         this.serverInfo = await this.getServerInfo();
 
         if (this.$route.query.client) {
-          this.openTextPrivate(
-            this.clientList.find(
-              (client) => client.clid === +this.$route.query.client
-            )
-          );
+          this.openTextPrivate(this.clientList.find((client) => client.clid === +this.$route.query.client));
         }
 
         this.addEventListeners();

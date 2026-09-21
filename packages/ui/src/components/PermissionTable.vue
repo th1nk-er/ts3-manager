@@ -5,26 +5,16 @@
         <v-layout justify-space-between wrap>
           <slot name="selectMenu"></slot>
           <v-flex xs12 sm5>
-            <v-text-field
-              v-model="filter"
-              append-icon="filter_list"
-              label="Filter"
-            ></v-text-field>
+            <v-text-field v-model="filter" append-icon="filter_list" :label="$t('common.filter')"></v-text-field>
           </v-flex>
           <v-flex xs12 sm2>
-            <v-checkbox
-              v-model="onlyGranted"
-              label="only granted"
-              primary
-            ></v-checkbox>
+            <v-checkbox v-model="onlyGranted" :label="$t('misc.onlyGranted')" primary></v-checkbox>
           </v-flex>
         </v-layout>
       </v-card-title>
       <v-card-text>
         <v-data-table
-          :no-data-text="
-            $store.state.query.loading ? '...loading' : $vuetify.noDataText
-          "
+          :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
           :headers="headers"
           :items="permissionlist"
           :footer-props="{ 'items-per-page-options': rowsPerPage }"
@@ -39,41 +29,22 @@
               </template>
               <v-list>
                 <v-list-item @click="editPermission(item)">
-                  <v-list-item-title> Edit Permission </v-list-item-title>
+                  <v-list-item-title>{{ $t("action.editPermission") }}</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="confirmDeletion(item)">
-                  <v-list-item-title> Remove Permission </v-list-item-title>
+                  <v-list-item-title>{{ $t("action.removePermission") }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
           </template>
-          <template
-            v-if="editableContent.includes('permvalue')"
-            #item.permvalue="{ item }"
-          >
+          <template v-if="editableContent.includes('permvalue')" #item.permvalue="{ item }">
             {{ item.permvalue }}
           </template>
-          <template
-            v-if="editableContent.includes('permskip')"
-            #item.permskip="{ item }"
-          >
-            <v-simple-checkbox
-              v-if="typeof item.permskip !== 'object'"
-              :value="!!item.permskip"
-              disabled
-            >
-            </v-simple-checkbox>
+          <template v-if="editableContent.includes('permskip')" #item.permskip="{ item }">
+            <v-simple-checkbox v-if="typeof item.permskip !== 'object'" :value="!!item.permskip" disabled> </v-simple-checkbox>
           </template>
-          <template
-            v-if="editableContent.includes('permnegated')"
-            #item.permnegated="{ item }"
-          >
-            <v-simple-checkbox
-              v-if="typeof item.permnegated !== 'object'"
-              :value="!!item.permnegated"
-              disabled
-            >
-            </v-simple-checkbox>
+          <template v-if="editableContent.includes('permnegated')" #item.permnegated="{ item }">
+            <v-simple-checkbox v-if="typeof item.permnegated !== 'object'" :value="!!item.permnegated" disabled> </v-simple-checkbox>
           </template>
         </v-data-table>
       </v-card-text>
@@ -84,47 +55,33 @@
         <v-card-text>
           <v-layout wrap justify-space-between>
             <v-flex xs12 v-if="editableContent.includes('permvalue')">
-              <v-text-field
-                label="Value"
-                type="number"
-                v-model="editedPermission.permvalue"
-              ></v-text-field>
+              <v-text-field :label="$t('misc.value')" type="number" v-model="editedPermission.permvalue"></v-text-field>
             </v-flex>
             <v-flex xs5 v-if="editableContent.includes('permskip')">
-              <v-checkbox
-                label="Skip"
-                v-model="editedPermission.permskip"
-              ></v-checkbox>
+              <v-checkbox :label="$t('misc.skip')" v-model="editedPermission.permskip"></v-checkbox>
             </v-flex>
             <v-flex xs5 v-if="editableContent.includes('permnegated')">
-              <v-checkbox
-                label="Negated"
-                v-model="editedPermission.permnegated"
-                :disabled="type === 'Client Permissions' ? true : false"
-              ></v-checkbox>
+              <v-checkbox :label="$t('misc.negated')" v-model="editedPermission.permnegated" :disabled="type === 'Client Permissions' ? true : false"></v-checkbox>
             </v-flex>
           </v-layout>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="savePermission" color="primary">Save</v-btn>
-          <v-btn text @click="dialog = false" color="primary">Cancel</v-btn>
+          <v-btn text @click="savePermission" color="primary">{{ $t("common.save") }}</v-btn>
+          <v-btn text @click="dialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="deleteDialog" max-width="500px">
       <v-card>
-        <v-card-title>Remove Permission</v-card-title>
+        <v-card-title>{{ $t("action.removePermission") }}</v-card-title>
         <v-card-text>
-          Do you really want to remove the
-          <b>{{ editedPermission.permname }}</b> permission values?
+          {{ $t("confirm.removePermission") }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="removePermission" color="primary">Yes</v-btn>
-          <v-btn text @click="deleteDialog = false" color="primary"
-            >Cancel</v-btn
-          >
+          <v-btn text @click="removePermission" color="primary">{{ $t("common.yes") }}</v-btn>
+          <v-btn text @click="deleteDialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -149,25 +106,25 @@ export default {
           sortable: false,
         },
         {
-          text: "Permission",
+          text: this.$t("entity.permission"),
           align: "left",
           value: "permname",
           sortable: false,
         },
         {
-          text: "Value",
+          text: this.$t("misc.value"),
           align: "left",
           value: "permvalue",
           sortable: false,
         },
         {
-          text: "Skip",
+          text: this.$t("misc.skip"),
           align: "left",
           value: "permskip",
           sortable: false,
         },
         {
-          text: "Negate",
+          text: this.$t("misc.negated"),
           align: "left",
           value: "permnegated",
           sortable: false,
@@ -190,12 +147,8 @@ export default {
   computed: {
     permissionlist() {
       let list = this.availablePermissions.map((permission) => {
-        let permissionValues = this.grantedPermissions.find(
-          (perm) => perm.permid === permission.permid
-        )
-          ? this.grantedPermissions.find(
-              (perm) => perm.permid === permission.permid
-            )
+        let permissionValues = this.grantedPermissions.find((perm) => perm.permid === permission.permid)
+          ? this.grantedPermissions.find((perm) => perm.permid === permission.permid)
           : {
               permvalue: null,
               permnegated: null,
@@ -217,11 +170,7 @@ export default {
     headers() {
       return this.availableHeaders.filter((header) => {
         for (let value of this.editableContent) {
-          if (
-            header.value === value ||
-            header.value === "permname" ||
-            header.value === "actions"
-          ) {
+          if (header.value === value || header.value === "permname" || header.value === "actions") {
             return header;
           }
         }
@@ -236,12 +185,8 @@ export default {
       this.editedPermission = {
         ...permissionValues,
       };
-      this.editedPermission.permskip = Boolean(
-        parseInt(this.editedPermission.permskip)
-      ); // converts the string into a number an than into true or false
-      this.editedPermission.permnegated = Boolean(
-        parseInt(this.editedPermission.permnegated)
-      );
+      this.editedPermission.permskip = Boolean(parseInt(this.editedPermission.permskip)); // converts the string into a number an than into true or false
+      this.editedPermission.permnegated = Boolean(parseInt(this.editedPermission.permnegated));
 
       this.dialog = true;
     },

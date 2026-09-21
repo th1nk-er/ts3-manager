@@ -4,9 +4,7 @@
       <template #activator="{ on }">
         <v-list-item v-on="on">
           <v-list-item-avatar>
-            <client-avatar
-              :clientDbId="client.clientDatabaseId"
-            ></client-avatar>
+            <client-avatar :clientDbId="client.clientDatabaseId"></client-avatar>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>
@@ -21,7 +19,7 @@
             <v-icon>mdi-alert-octagram</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Poke Client </v-list-item-title>
+            <v-list-item-title>{{ $t("viewer.pokeClient") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="openPrivateChat(client.clid)">
@@ -29,17 +27,15 @@
             <v-icon>send</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Open Text Chat </v-list-item-title>
+            <v-list-item-title>{{ $t("viewer.openTextChat") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          :to="{ name: 'client-edit', params: { clid: client.clid } }"
-        >
+        <v-list-item :to="{ name: 'client-edit', params: { clid: client.clid } }">
           <v-list-item-action>
             <v-icon>edit</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Edit Client </v-list-item-title>
+            <v-list-item-title>{{ $t("action.editClient") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="openKickDialog(4)">
@@ -47,7 +43,7 @@
             <v-icon>forward</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Kick Client from Channel </v-list-item-title>
+            <v-list-item-title>{{ $t("viewer.kickFromChannel") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="openKickDialog(5)">
@@ -55,7 +51,7 @@
             <v-icon>forward</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Kick Client from Server </v-list-item-title>
+            <v-list-item-title>{{ $t("viewer.kickFromServer") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -68,7 +64,7 @@
             <v-icon>not_interested</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Ban Client </v-list-item-title>
+            <v-list-item-title>{{ $t("action.banClient") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -76,35 +72,28 @@
 
     <v-dialog v-model="kickClientDialog" max-width="500px">
       <v-card>
-        <v-card-title>Kick from {{ destination }}</v-card-title>
+        <v-card-title>{{ $t("viewer.kickTitle", { destination }) }}</v-card-title>
         <v-card-text>
-          <v-text-field label="Kick Message" v-model="reason"></v-text-field>
+          <v-text-field :label="$t('viewer.kickMessage')" v-model="reason"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="kickClientDialog = false" color="primary"
-            >Cancel</v-btn
-          >
-          <v-btn text @click="kick" color="primary">OK</v-btn>
+          <v-btn text @click="kickClientDialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
+          <v-btn text @click="kick" color="primary">{{ $t("common.ok") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="pokeClientDialog" max-width="500px">
       <v-card>
-        <v-card-title>Poke</v-card-title>
+        <v-card-title>{{ $t("misc.poke") }}</v-card-title>
         <v-card-text>
-          <v-text-field
-            label="Poke Message"
-            v-model="pokeMessage"
-          ></v-text-field>
+          <v-text-field :label="$t('viewer.pokeMessage')" v-model="pokeMessage"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="pokeClientDialog = false" color="primary"
-            >Cancel</v-btn
-          >
-          <v-btn text @click="poke" color="primary">Send</v-btn>
+          <v-btn text @click="pokeClientDialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
+          <v-btn text @click="poke" color="primary">{{ $t("viewer.send") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -161,10 +150,10 @@ export default {
 
       switch (this.reasonid) {
         case 4:
-          this.destination = "Channel";
+          this.destination = this.$t("entity.channel");
           break;
         case 5:
-          this.destination = "Server";
+          this.destination = this.$t("entity.server");
       }
 
       this.kickClientDialog = true;

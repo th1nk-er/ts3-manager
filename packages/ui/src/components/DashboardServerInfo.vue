@@ -5,7 +5,7 @@
       <v-list>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>IP Address:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.ipAddress') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             {{ serverInfo.virtualserverIp }}
@@ -13,7 +13,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Version:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.version') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>{{
             serverInfo.virtualserverVersion
@@ -21,7 +21,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Uptime:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.uptime') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>{{
             serverInfo.virtualserverUptime
@@ -29,7 +29,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Platform:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.platform') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>{{
             serverInfo.virtualserverPlatform
@@ -37,7 +37,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Total Bytes Downloaded:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.downloaded') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>{{
             serverInfo.virtualserverTotalBytesDownloaded
@@ -45,7 +45,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Total Bytes Uploaded:</v-list-item-title>
+            <v-list-item-title>{{ $t('misc.uploaded') }}:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>{{
             serverInfo.virtualserverTotalBytesUploaded

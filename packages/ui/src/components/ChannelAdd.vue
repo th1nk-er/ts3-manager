@@ -1,5 +1,5 @@
 <template>
-  <channel-form title="Create Channel" @save="save"></channel-form>
+  <channel-form :title="$t('action.createChannel')" @save="save"></channel-form>
 </template>
 
 <script>

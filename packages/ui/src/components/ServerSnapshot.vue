@@ -3,21 +3,20 @@
     <v-layout justify-center>
       <v-flex lg6 md8 sm8 xs12>
         <v-card>
-          <v-card-title> Backup </v-card-title>
+          <v-card-title>{{ $t('snapshot.backup') }}</v-card-title>
           <v-card-text>
-            Download a backup file which contains all the necessary data to
-            restore the virtual server
+            {{ $t('snapshot.backupDescription') }}
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" @click="createSnapshot">
-              Create Snapshot
+              {{ $t('snapshot.create') }}
               <v-icon right> mdi-file-download-outline </v-icon>
             </v-btn>
           </v-card-actions>
           <v-divider></v-divider>
-          <v-card-title> Restore </v-card-title>
+          <v-card-title>{{ $t('snapshot.restore') }}</v-card-title>
           <v-card-text>
-            Upload a backup file to restore the virtual server
+            {{ $t('snapshot.restoreDescription') }}
           </v-card-text>
           <v-card-actions>
             <v-layout justify-space-between wrap>
@@ -30,7 +29,7 @@
                   accept=".backup"
                 />
                 <v-text-field
-                  label="Select Backup File"
+                  :label="$t('snapshot.select')"
                   @click="selectFile"
                   v-model="fileName"
                   prepend-icon="attach_file"
@@ -42,7 +41,7 @@
                   :disabled="filePicked"
                   @click="deploySnapshot"
                 >
-                  Deploy Snapshot
+                  {{ $t('snapshot.deploy') }}
                   <v-icon right> mdi-file-upload-outline </v-icon>
                 </v-btn>
               </v-flex>
@@ -110,7 +109,7 @@ export default {
       try {
         let response = await this.$TeamSpeak.deploySnapshot(this.fileContent);
 
-        this.$toast.success("Snapshot successfully restored");
+        this.$toast.success(this.$t("feedback.snapshotRestored"));
 
         await this.$TeamSpeak.selectServer(this.$store.state.query.serverId); // After snapshot deployment server needs to be selected again
 

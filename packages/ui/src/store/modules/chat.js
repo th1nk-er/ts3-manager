@@ -39,6 +39,8 @@ const mutations = {
 const actions = {
   async handleReceivedMessages({ dispatch, rootState }, notification) {
     try {
+      if (!notification || !notification.invoker || !rootState.query.queryUser) return;
+
       if (notification.invoker.clid !== rootState.query.queryUser.clientId) {
         dispatch("saveTextMessage", {
           targetmode: notification.targetmode,

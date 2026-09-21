@@ -1,6 +1,6 @@
 <template lang="html">
   <channel-form
-    title="Create Spacer"
+    :title="$t('remaining.createSpacer')"
     @save="save"
     spacer
     :channel="channel"

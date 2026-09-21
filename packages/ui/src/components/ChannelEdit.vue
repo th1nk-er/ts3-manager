@@ -1,25 +1,17 @@
 <template>
   <div>
-    <channel-form
-      :applyButton="true"
-      title="Channel Edit"
-      :channel="channel"
-      @save="save"
-    ></channel-form>
+    <channel-form :applyButton="true" :title="$t('action.editChannel')" :channel="channel" @save="save"></channel-form>
 
     <v-dialog v-model="temporaryChannelWarning" max-width="500px">
       <v-card>
-        <v-card-title> Temporary Channel </v-card-title>
+        <v-card-title>{{ $t("remaining.temporaryChannel") }}</v-card-title>
         <v-card-text>
-          If there are no clients inside the channel and you change it to
-          temporary, the channel will be deleted. Do you want to continue?
+          {{ $t("confirm.temporaryChannel") }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="saveAndLeave">Yes</v-btn>
-          <v-btn text color="primary" @click="temporaryChannelWarning = false"
-            >No</v-btn
-          >
+          <v-btn text color="primary" @click="saveAndLeave">{{ $t("common.yes") }}</v-btn>
+          <v-btn text color="primary" @click="temporaryChannelWarning = false">{{ $t("common.no") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -50,10 +42,7 @@ export default {
     channelIsTemporary(channelProps) {
       let newChannelProps = { ...this.channel, ...channelProps };
 
-      if (
-        newChannelProps.channelFlagPermanent === 0 &&
-        newChannelProps.channelFlagSemiPermanent === 0
-      ) {
+      if (newChannelProps.channelFlagPermanent === 0 && newChannelProps.channelFlagSemiPermanent === 0) {
         return true;
       } else {
         return false;
@@ -68,14 +57,14 @@ export default {
         })
       );
     },
-    async save(channelProps, e) {
+    async save(channelProps, action) {
       try {
         if (this.channelIsTemporary(channelProps)) {
           this.temporaryChannelWarning = true;
 
           this.pendingChanges = channelProps;
         } else {
-          switch (e.target.textContent.toLowerCase()) {
+          switch (action) {
             case "apply":
               await this.editChannel(channelProps);
 

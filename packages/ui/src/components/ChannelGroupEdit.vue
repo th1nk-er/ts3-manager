@@ -3,30 +3,17 @@
     <v-layout>
       <v-flex md6 sm8 xs12 offset-md3 offset-sm2>
         <v-card>
-          <v-card-title> Channel Group Edit </v-card-title>
+          <v-card-title>{{ $t("action.editGroup") }}</v-card-title>
           <v-card-text>
-            <v-text-field
-              label="Channel Group Name"
-              v-model="channelGroupName"
-              :disabled="$store.state.query.loading"
-            ></v-text-field>
-            <v-autocomplete
-              :items="channelSelection"
-              label="Channel"
-              v-model="selectedChannel"
-              :disabled="$store.state.query.loading"
-            ></v-autocomplete>
-            <group-client-list
-              v-model="selectedClients"
-              :clientDbList="clients"
-              :disabled="disabled || $store.state.query.loading"
-            ></group-client-list>
+            <v-text-field :label="$t('entity.channelGroup') + ' ' + $t('common.name')" v-model="channelGroupName" :disabled="$store.state.query.loading"></v-text-field>
+            <v-autocomplete :items="channelSelection" :label="$t('entity.channel')" v-model="selectedChannel" :disabled="$store.state.query.loading"></v-autocomplete>
+            <group-client-list v-model="selectedClients" :clientDbList="clients" :disabled="disabled || $store.state.query.loading"></group-client-list>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text @click="save" color="primary">OK</v-btn>
-            <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
-            <v-btn text @click="save" color="primary">Apply</v-btn>
+            <v-btn text @click="save('ok')" color="primary">{{ $t("common.ok") }}</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t("common.cancel") }}</v-btn>
+            <v-btn text @click="save('apply')" color="primary">{{ $t("common.apply") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -83,16 +70,10 @@ export default {
   },
   methods: {
     getDefaultChannelGroup() {
-      return this.$TeamSpeak
-        .execute("serverinfo")
-        .then((info) => info[0].virtualserverDefaultChannelGroup);
+      return this.$TeamSpeak.execute("serverinfo").then((info) => info[0].virtualserverDefaultChannelGroup);
     },
     getChannelGroup() {
-      return this.$TeamSpeak
-        .execute("channelgrouplist")
-        .then((list) =>
-          list.find((group) => group.cgid == this.channelGroupId)
-        ); // just double '==' cause this.$route.params.cgid is always a string
+      return this.$TeamSpeak.execute("channelgrouplist").then((list) => list.find((group) => group.cgid == this.channelGroupId)); // just double '==' cause this.$route.params.cgid is always a string
     },
     getChannelList() {
       return this.$TeamSpeak.execute("channellist");
@@ -135,23 +116,19 @@ export default {
     // Remove means: put client in the default channel group of the virtual server
     async removeMembers() {
       let clientRemoveList = this.currentClients.filter((currentClient) => {
-        return !this.selectedClients.find(
-          (client) => client.cldbid === currentClient.cldbid
-        );
+        return !this.selectedClients.find((client) => client.cldbid === currentClient.cldbid);
       });
 
       await this.changeMembers(clientRemoveList, this.defaultChannelGroupId);
     },
     async addMembers() {
       let clientAddList = this.selectedClients.filter((client) => {
-        return !this.currentClients.find(
-          (currentClient) => currentClient.cldbid === client.cldbid
-        );
+        return !this.currentClients.find((currentClient) => currentClient.cldbid === client.cldbid);
       });
 
       await this.changeMembers(clientAddList, this.channelGroupId);
     },
-    async save(e) {
+    async save(action) {
       try {
         await this.renameChannelGroupName();
         await this.removeMembers();
@@ -160,11 +137,11 @@ export default {
         this.$toast.error(err.message);
       }
 
-      switch (e.target.textContent) {
-        case "OK":
+      switch (action) {
+        case "ok":
           this.$router.go(-1);
           break;
-        case "Apply":
+        case "apply":
           try {
             this.channelGroup = await this.getChannelGroup();
           } catch (err) {

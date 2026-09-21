@@ -3,10 +3,10 @@
     <v-row justify="center">
       <v-col cols="12" lg="6" md="8" sm="10">
         <v-card>
-          <v-card-title>Upload File</v-card-title>
+          <v-card-title>{{ $t('action.uploadFile') }}</v-card-title>
           <v-card-text>
             <v-file-input
-              label="Upload File(s)"
+              :label="$t('misc.uploadFiles')"
               v-model="files"
               multiple
             ></v-file-input>
@@ -14,9 +14,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="addFilesToUploadQueue" :disabled="!files.length"
-              >Upload</v-btn
+              >{{ $t('action.uploadFile') }}</v-btn
             >
-            <v-btn text @click="close">Cancel</v-btn>
+            <v-btn text @click="close">{{ $t('common.cancel') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

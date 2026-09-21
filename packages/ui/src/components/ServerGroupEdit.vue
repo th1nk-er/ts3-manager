@@ -3,40 +3,16 @@
     <v-layout>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
-          <v-card-title> Edit Servergroup </v-card-title>
+          <v-card-title>{{ $t("action.editGroup") }}</v-card-title>
           <v-card-text>
-            <v-text-field
-              v-model="serverGroupName"
-              label="Name"
-              :disabled="$store.state.query.loading"
-            ></v-text-field>
-            <group-client-list
-              v-model="serverGroupClients"
-              :clientDbList="clients"
-              :disabled="
-                $store.state.query.loading ||
-                serverGroup.type === 0 ||
-                serverGroup.type === 2
-              "
-            ></group-client-list>
+            <v-text-field v-model="serverGroupName" :label="$t('common.name')" :disabled="$store.state.query.loading"></v-text-field>
+            <group-client-list v-model="serverGroupClients" :clientDbList="clients" :disabled="$store.state.query.loading || serverGroup.type === 0 || serverGroup.type === 2"></group-client-list>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              text
-              @click="save"
-              :disabled="$store.state.query.loading"
-              color="primary"
-              >OK</v-btn
-            >
-            <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
-            <v-btn
-              text
-              @click="save"
-              :disabled="$store.state.query.loading"
-              color="primary"
-              >Apply</v-btn
-            >
+            <v-btn text @click="save('ok')" :disabled="$store.state.query.loading" color="primary">{{ $t("common.ok") }}</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t("common.cancel") }}</v-btn>
+            <v-btn text @click="save('apply')" :disabled="$store.state.query.loading" color="primary">{{ $t("common.apply") }}</v-btn>
           </v-card-actions>
         </v-card>
         <v-dialog v-model="swag"> </v-dialog>
@@ -83,9 +59,7 @@ export default {
   },
   methods: {
     getServerGroup() {
-      return this.$TeamSpeak
-        .execute("servergrouplist")
-        .then((list) => list.find((group) => group.sgid == this.serverGroupId));
+      return this.$TeamSpeak.execute("servergrouplist").then((list) => list.find((group) => group.sgid == this.serverGroupId));
     },
     getServerGroupClientList() {
       return this.$TeamSpeak.execute("servergroupclientlist", {
@@ -105,13 +79,9 @@ export default {
       }
     },
     async removeMembers() {
-      let clientRemoveList = this.currentServerGroupClients.filter(
-        (currentClient) => {
-          return !this.serverGroupClients.find(
-            (client) => currentClient.cldbid === client.cldbid
-          );
-        }
-      );
+      let clientRemoveList = this.currentServerGroupClients.filter((currentClient) => {
+        return !this.serverGroupClients.find((client) => currentClient.cldbid === client.cldbid);
+      });
 
       for (let client of clientRemoveList) {
         await this.$TeamSpeak.execute("servergroupdelclient", {
@@ -122,9 +92,7 @@ export default {
     },
     async addMembers() {
       let clientAddList = this.serverGroupClients.filter((client) => {
-        return !this.currentServerGroupClients.find(
-          (currentClient) => client.cldbid === currentClient.cldbid
-        );
+        return !this.currentServerGroupClients.find((currentClient) => client.cldbid === currentClient.cldbid);
       });
 
       for (let client of clientAddList) {
@@ -134,7 +102,7 @@ export default {
         });
       }
     },
-    async save(e) {
+    async save(action) {
       try {
         await this.renameServerGroup();
         await this.removeMembers();
@@ -143,11 +111,11 @@ export default {
         this.$toast.error(err.message);
       }
 
-      switch (e.target.textContent) {
-        case "OK":
+      switch (action) {
+        case "ok":
           this.$router.go(-1);
           break;
-        case "Apply":
+        case "apply":
           this.init();
       }
     },

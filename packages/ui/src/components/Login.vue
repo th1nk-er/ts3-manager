@@ -8,20 +8,10 @@
             <v-form v-model="valid">
               <v-layout justify-space-between wrap>
                 <v-flex xs6>
-                  <v-text-field
-                    label="Server"
-                    placeholder="IP or Domain"
-                    v-model="form.host"
-                    :rules="[rules.required]"
-                  ></v-text-field>
+                  <v-text-field :label="$t('login.server')" :placeholder="$t('login.hostPlaceholder')" v-model="form.host" :rules="[rules.required]"></v-text-field>
                 </v-flex>
                 <v-flex xs2>
-                  <v-text-field
-                    label="Port"
-                    type="number"
-                    v-model="form.queryport"
-                    :rules="[rules.required]"
-                  ></v-text-field>
+                  <v-text-field :label="$t('login.port')" type="number" v-model="form.queryport" :rules="[rules.required]"></v-text-field>
                 </v-flex>
                 <v-flex xs3>
                   <v-checkbox v-model="form.ssh" label="SSH">
@@ -30,61 +20,40 @@
                         <template #activator="{ on }">
                           <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                         </template>
-                        <span
-                          >If SSH is checked (default), the connection to the
-                          ServerQuery is encrypted.</span
-                        >
+                        <span>{{ $t("login.sshHelp") }}</span>
                       </v-tooltip>
                     </template>
                   </v-checkbox>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    label="Name"
+                    :label="$t('login.username')"
                     v-model="form.username"
                     :rules="[rules.required]"
-                    placeholder="e.g. serveradmin"
+                    :placeholder="$t('login.usernamePlaceholder')"
                     name="username"
                     autocomplete="username"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field
-                    label="Password"
-                    type="password"
-                    v-model="form.password"
-                    :rules="[rules.required]"
-                    name="password"
-                    autocomplete="current-password"
-                  ></v-text-field>
+                  <v-text-field :label="$t('common.password')" type="password" v-model="form.password" :rules="[rules.required]" name="password" autocomplete="current-password"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-checkbox
-                    label="Remember me"
-                    v-model="rememberLogin"
-                  ></v-checkbox>
+                  <v-checkbox :label="$t('login.rememberMe')" v-model="rememberLogin"></v-checkbox>
                 </v-flex>
               </v-layout>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              text
-              color="primary"
-              :disabled="!valid"
-              @click="connect"
-              :loading="loading"
-            >
-              <v-icon>arrow_forward</v-icon>Connect
+            <v-btn text color="primary" :disabled="!valid" @click="connect" :loading="loading">
+              <v-icon>arrow_forward</v-icon>{{ $t("common.connect") }}
               <template #loader>
-                <span>Connecting...</span>
+                <span>{{ $t("common.connecting") }}</span>
               </template>
             </v-btn>
           </v-card-actions>
-          <span :style="{ color: '#BDBDBD', marginLeft: '5px' }"
-            >Version {{ appVersion }}</span
-          >
+          <span :style="{ color: '#BDBDBD', marginLeft: '5px' }">{{ $t("login.version") }} {{ appVersion }}</span>
         </v-card>
       </v-flex>
     </v-layout>
@@ -124,7 +93,7 @@ export default {
       valid: false,
       loading: false,
       rules: {
-        required: (value) => !!value || "Required.",
+        required: (value) => !!value || this.$t("common.required"),
       },
       form: {
         host: "",

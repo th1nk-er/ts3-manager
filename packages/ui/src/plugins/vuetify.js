@@ -2,12 +2,23 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import "@mdi/font/css/materialdesignicons.css";
 import store from "@/store";
+import en from "vuetify/lib/locale/en";
+import zhHans from "vuetify/lib/locale/zh-Hans";
+import zhHant from "vuetify/lib/locale/zh-Hant";
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
   icons: {
     iconfont: "mdi",
+  },
+  lang: {
+    current: store.state.settings.locale || "en",
+    locales: {
+      en,
+      "zh-CN": zhHans,
+      "zh-TW": zhHant,
+    },
   },
   theme: {
     dark: store.state.settings.darkMode,

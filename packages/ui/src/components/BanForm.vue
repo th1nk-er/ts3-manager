@@ -16,17 +16,17 @@
                     v-model="ip"
                   ></v-text-field>
                   <v-text-field
-                    label="Name"
+                    :label="$t('common.name')"
                     :disabled="$store.state.query.loading"
                     v-model="name"
                   ></v-text-field>
                   <v-text-field
-                    label="Unique ID"
+                    :label="$t('entity.uniqueId')"
                     :disabled="$store.state.query.loading"
                     v-model="uid"
                   ></v-text-field>
                   <v-textarea
-                    label="Reason"
+                    :label="$t('entity.reason')"
                     v-model="reason"
                     :disabled="$store.state.query.loading"
                   >
@@ -35,7 +35,7 @@
                 <v-flex sm5 xs12>
                   <v-text-field
                     type="number"
-                    label="Duration"
+                    :label="$t('entity.duration')"
                     :disabled="!selectedUnit || $store.state.query.loading"
                     v-model="time"
                   ></v-text-field>
@@ -56,9 +56,9 @@
                 @click="addBan"
                 :disabled="disabledButton"
                 color="primary"
-                >OK</v-btn
+                >{{ $t('common.ok') }}</v-btn
               >
-              <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
+              <v-btn text @click="$router.go(-1)" color="primary">{{ $t('common.cancel') }}</v-btn>
             </v-card-actions>
           </v-form>
         </v-card>
@@ -77,23 +77,23 @@ export default {
     return {
       timeUnits: [
         {
-          text: "seconds",
+          text: this.$t("option.seconds"),
           value: 1,
         }, // value = seconds
         {
-          text: "minutes",
+          text: this.$t("option.minutes"),
           value: 60,
         },
         {
-          text: "hours",
+          text: this.$t("option.hours"),
           value: 3600,
         },
         {
-          text: "days",
+          text: this.$t("option.days"),
           value: 86400,
         },
         {
-          text: "permanent",
+          text: this.$t("option.permanent"),
           value: 0,
         },
       ],

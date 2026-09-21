@@ -16,7 +16,7 @@
                 :items="channelSelection"
                 v-model="selectedChannel"
                 @change="changeChannel"
-                label="Channel"
+                :label="$t('entity.channel')"
                 :disabled="$store.state.query.loading"
               ></v-autocomplete>
             </v-flex>

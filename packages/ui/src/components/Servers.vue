@@ -5,9 +5,7 @@
         <v-card>
           <v-card-text>
             <v-data-table
-              :no-data-text="
-                $store.state.query.loading ? '...loading' : $vuetify.noDataText
-              "
+              :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
               :headers="headers"
               :items="servers"
               item-key="virtualserverId"
@@ -23,45 +21,27 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-item
-                      :to="{ name: 'server-edit' }"
-                      :disabled="isOffline(item.virtualserverStatus)"
-                    >
-                      <v-list-item-title> Edit Server </v-list-item-title>
+                    <v-list-item :to="{ name: 'server-edit' }" :disabled="isOffline(item.virtualserverStatus)">
+                      <v-list-item-title>{{ $t("common.edit") }} {{ $t("entity.server") }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="openDeleteDialog(item)">
-                      <v-list-item-title> Delete Server </v-list-item-title>
+                      <v-list-item-title>{{ $t("common.delete") }} {{ $t("entity.server") }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
               </template>
               <template #item.selectedSid="{ item }">
                 <v-radio-group v-model="joinedServerId">
-                  <v-radio
-                    :value="item.virtualserverId"
-                    :disabled="
-                      item.virtualserverStatus === 'offline' ||
-                      $store.state.query.loading
-                    "
-                  >
-                  </v-radio>
+                  <v-radio :value="item.virtualserverId" :disabled="item.virtualserverStatus === 'offline' || $store.state.query.loading"> </v-radio>
                 </v-radio-group>
               </template>
-              <template #item.virtualserverClientsonlineMaxclients="{ item }">
-                {{ item.virtualserverClientsonline }}/{{
-                  item.virtualserverMaxclients
-                }}
-              </template>
+              <template #item.virtualserverClientsonlineMaxclients="{ item }"> {{ item.virtualserverClientsonline }}/{{ item.virtualserverMaxclients }} </template>
               <template #item.virtualserverUptime="{ item }">
                 {{ calcUptime(item.virtualserverUptime) }}
               </template>
               <template #item.virtualserverStatus="{ item }">
                 <!-- <v-switch v-model="onlineServerIds" :value="item.virtualserverId"></v-switch> -->
-                <v-switch
-                  :input-value="!isOffline(item.virtualserverStatus)"
-                  readonly
-                  @click="changeServerStatus(item)"
-                >
+                <v-switch :input-value="!isOffline(item.virtualserverStatus)" readonly @click="changeServerStatus(item)">
                   <!-- @click.native.stop="changeServerStatus(item)" -->
                 </v-switch>
               </template>
@@ -73,42 +53,33 @@
 
     <v-dialog v-model="stopDialog" max-width="500px">
       <v-card>
-        <v-card-title>Stop Server</v-card-title>
+        <v-card-title>{{ $t("serverAction.stop") }}</v-card-title>
         <v-card-text>
-          Do really want to stop this virtual server instance?
+          {{ $t("confirm.stopServer") }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="stopDialog = false" color="primary">Cancel</v-btn>
-          <v-btn text @click="stopServer" color="primary">Stop</v-btn>
+          <v-btn text @click="stopDialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
+          <v-btn text @click="stopServer" color="primary">{{ $t("serverAction.stop") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="deleteDialog" max-width="500px">
       <v-card>
-        <v-card-title>Delete Server</v-card-title>
+        <v-card-title>{{ $t("common.delete") }} {{ $t("entity.server") }}</v-card-title>
         <v-card-text>
-          Do really want to delete this virtual server instance?
+          {{ $t("confirm.deleteServer") }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="deleteDialog = false" color="primary"
-            >Cancel</v-btn
-          >
-          <v-btn text @click="deleteServer" color="primary">Delete</v-btn>
+          <v-btn text @click="deleteDialog = false" color="primary">{{ $t("common.cancel") }}</v-btn>
+          <v-btn text @click="deleteServer" color="primary">{{ $t("common.delete") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-btn
-      fab
-      color="primary"
-      fixed
-      bottom
-      right
-      :to="{ name: 'server-create' }"
-    >
+    <v-btn fab color="primary" fixed bottom right :to="{ name: 'server-create' }">
       <v-icon>add</v-icon>
     </v-btn>
   </v-container>
@@ -123,12 +94,9 @@ export default {
 
         // Pick the first virtual server after login
         if (from.name === "login") {
-          let onlineServer = vm.servers.find(
-            (server) => server.virtualserverStatus === "online"
-          );
+          let onlineServer = vm.servers.find((server) => server.virtualserverStatus === "online");
 
-          if (onlineServer)
-            await vm.$TeamSpeak.selectServer(onlineServer.virtualserverId);
+          if (onlineServer) await vm.$TeamSpeak.selectServer(onlineServer.virtualserverId);
         }
 
         // Is primary needed to get the used server id
@@ -150,33 +118,33 @@ export default {
           sortable: false,
         },
         {
-          text: "Select",
+          text: this.$t("table.select"),
           align: "start",
           value: "selectedSid",
           sortable: false,
         },
         {
-          text: "Name",
+          text: this.$t("common.name"),
           value: "virtualserverName",
           sortable: false,
         },
         {
-          text: "Port",
+          text: this.$t("table.port"),
           value: "virtualserverPort",
           sortable: false,
         },
         {
-          text: "Clients",
+          text: this.$t("table.clients"),
           value: "virtualserverClientsonlineMaxclients",
           sortable: false,
         },
         {
-          text: "Uptime (d:h:m:s)",
+          text: this.$t("table.uptime"),
           value: "virtualserverUptime",
           sortable: false,
         },
         {
-          text: "Status",
+          text: this.$t("table.status"),
           value: "virtualserverStatus",
           sortable: false,
         },
@@ -274,8 +242,7 @@ export default {
 
         this.servers = await this.getServerList();
 
-        if (this.joinedServerId === this.selectedServer.virtualserverId)
-          this.$store.dispatch("removeServerId");
+        if (this.joinedServerId === this.selectedServer.virtualserverId) this.$store.dispatch("removeServerId");
       } catch (err) {
         this.$toast.error(err.message);
       }
@@ -289,15 +256,11 @@ export default {
     calcUptime(seconds) {
       let time = this.secondsToDHMS(seconds);
 
-      return `${time.days}:${time.hours < 10 ? "0" + time.hours : time.hours}:${
-        time.minutes < 10 ? "0" + time.minutes : time.minutes
-      }:${time.seconds < 10 ? "0" + time.seconds : time.seconds}`;
+      return `${time.days}:${time.hours < 10 ? "0" + time.hours : time.hours}:${time.minutes < 10 ? "0" + time.minutes : time.minutes}:${time.seconds < 10 ? "0" + time.seconds : time.seconds}`;
     },
     startUptimeCounters() {
       for (let i = 0; i < this.servers.length; i++) {
-        this.servers[i].virtualserverUptime = parseInt(
-          this.servers[i].virtualserverUptime
-        );
+        this.servers[i].virtualserverUptime = parseInt(this.servers[i].virtualserverUptime);
 
         if (!this.isOffline(this.servers[i].virtualserverStatus)) {
           this.counterIds[i] = setInterval(() => {

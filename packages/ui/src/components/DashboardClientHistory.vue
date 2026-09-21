@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <v-row>
-        <v-col>Client Connections History</v-col>
+        <v-col>{{ $t('dashboard.clientConnectionsHistory') }}</v-col>
         <v-col cols="12" sm="4" md="3">
           <v-select
             :items="days"
@@ -13,7 +13,7 @@
     </v-card-title>
     <v-card-text>
       <canvas v-if="loaded" ref="chart" height="200"></canvas>
-      <span v-else>Loading Data...</span>
+      <span v-else>{{ $t('common.loading') }}</span>
     </v-card-text>
   </v-card>
 </template>
@@ -68,7 +68,9 @@ export default {
             if (index === -1) {
               let arrLength = acc.push({
                 date: currentTimestamp,
-                localeDateString: currentTimestamp.toLocaleDateString(),
+                localeDateString: currentTimestamp.toLocaleDateString(
+                  this.$i18n.locale
+                ),
                 clients: [],
               });
 
@@ -99,7 +101,7 @@ export default {
             data: {
               datasets: [
                 {
-                  label: "Unique Client Connections",
+                  label: this.$t("dashboard.uniqueClientConnections"),
                   data: this.clientConnections,
                   cubicInterpolationMode: "monotone",
                 },

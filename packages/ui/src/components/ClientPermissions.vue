@@ -16,7 +16,7 @@
                 :items="clientSelection"
                 v-model="selectedClient"
                 @change="changeClient"
-                label="Client"
+                :label="$t('entity.client')"
                 :disabled="$store.state.query.loading"
               ></v-autocomplete>
             </v-flex>

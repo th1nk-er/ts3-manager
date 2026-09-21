@@ -40,11 +40,18 @@ socket.init = (server, corsOptions) => {
         fn({
           message: err.message,
           id: err.id,
+          msg: err.msg,
+          extraMsg: err.extraMsg,
+          failedPermid: err.failedPermid,
           connected: true,
         });
       } else {
         fn({
           message: err.message,
+          id: err.id,
+          msg: err.msg,
+          extraMsg: err.extraMsg,
+          failedPermid: err.failedPermid,
           connected: false,
         });
       }

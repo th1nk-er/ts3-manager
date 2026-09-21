@@ -1,7 +1,7 @@
 <template lang="html">
   <v-btn color="primary" @click="refreshList">
     <v-icon>mdi-refresh</v-icon>
-    Refresh
+    {{ $t('misc.refresh') }}
   </v-btn>
 </template>
 

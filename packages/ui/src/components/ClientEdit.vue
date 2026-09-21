@@ -3,21 +3,17 @@
     <v-layout justify-center>
       <v-flex lg6 md8 sm8 xs12>
         <v-card>
-          <v-card-title> Edit Client </v-card-title>
+          <v-card-title>{{ $t("action.editClient") }}</v-card-title>
           <v-card-text>
-            <v-text-field
-              label="Nickname"
-              :placeholder="client.clientNickname"
-              disabled
-            ></v-text-field>
-            <v-textarea label="Description" v-model="description"></v-textarea>
+            <v-text-field :label="$t('entity.nickname')" :placeholder="client.clientNickname" disabled></v-text-field>
+            <v-textarea :label="$t('common.description')" v-model="description"></v-textarea>
             <v-autocomplete
               :items="availableServerGroups"
               item-text="name"
               item-value="sgid"
               :item-disabled="notSelectableGroup"
               chips
-              label="Servergroups"
+              :label="$t('entity.serverGroup')"
               multiple
               v-model="selectedGroups"
             >
@@ -27,17 +23,15 @@
                 </v-list-item-action>
                 <v-list-item-content>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    getServerGroupTypeName(item.type)
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ getServerGroupTypeName(item.type) }}</v-list-item-subtitle>
                 </v-list-item-content>
               </template>
             </v-autocomplete>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text @click="save" color="primary">OK</v-btn>
-            <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
+            <v-btn text @click="save" color="primary">{{ $t("common.ok") }}</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t("common.cancel") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -62,18 +56,16 @@ export default {
     // Clients can only be member of a regular or a ServerQuery group.
     // Order the groups by the type. Regular groups are listed first.
     availableServerGroups() {
-      return this.servergroups
-        .filter(({ type }) => type === 1 || type === 2)
-        .sort((a, b) => a.type - b.type);
+      return this.servergroups.filter(({ type }) => type === 1 || type === 2).sort((a, b) => a.type - b.type);
     },
   },
   methods: {
     getServerGroupTypeName(num) {
       switch (num) {
         case 1:
-          return "Regular Group";
+          return this.$t("option.regularGroup");
         case 2:
-          return "ServerQuery Group";
+          return this.$t("option.queryGroup");
       }
     },
     /**
@@ -91,14 +83,10 @@ export default {
       }
     },
     getDefaultServerGroupId() {
-      return this.$TeamSpeak
-        .execute("serverinfo")
-        .then((info) => info[0].virtualserverDefaultServerGroup);
+      return this.$TeamSpeak.execute("serverinfo").then((info) => info[0].virtualserverDefaultServerGroup);
     },
     getClientInfo() {
-      return this.$TeamSpeak
-        .execute("clientinfo", { clid: this.clientId })
-        .then((clientinfo) => clientinfo[0]);
+      return this.$TeamSpeak.execute("clientinfo", { clid: this.clientId }).then((clientinfo) => clientinfo[0]);
     },
     getServergroupList() {
       return this.$TeamSpeak.execute("servergrouplist");
@@ -109,7 +97,7 @@ export default {
         await this.addServergroups();
         await this.removeServergroups();
 
-        this.$toast.success("Client updated");
+        this.$toast.success(this.$t("feedback.clientUpdated"));
       } catch (err) {
         this.$toast.error(err.message);
       }
@@ -121,21 +109,15 @@ export default {
     },
     getClientDescription() {
       // if not null
-      return this.client.clientDescription
-        ? this.client.clientDescription
-        : "";
+      return this.client.clientDescription ? this.client.clientDescription : "";
     },
     addServergroups() {
-      let groupAddList = this.selectedGroups.filter(
-        (sgid) => !this.getClientServergroups().includes(sgid)
-      );
+      let groupAddList = this.selectedGroups.filter((sgid) => !this.getClientServergroups().includes(sgid));
 
       return this.changeMemberships("add", groupAddList);
     },
     removeServergroups() {
-      let groupRemoveList = this.getClientServergroups().filter(
-        (sgid) => !this.selectedGroups.includes(sgid)
-      );
+      let groupRemoveList = this.getClientServergroups().filter((sgid) => !this.selectedGroups.includes(sgid));
 
       return this.changeMemberships("remove", groupRemoveList);
     },

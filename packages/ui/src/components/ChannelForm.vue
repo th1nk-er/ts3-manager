@@ -8,12 +8,7 @@
           </v-card-title>
           <v-card-text>
             <div v-if="spacer">
-              <v-select
-                label="Special Spacer"
-                :items="specialSpacerList"
-                v-model="specialSpacer"
-                :disabled="!!spacerAlignment || !!spacerText"
-              >
+              <v-select :label="$t('channelForm.specialSpacer')" :items="specialSpacerList" v-model="specialSpacer" :disabled="!!spacerAlignment || !!spacerText">
                 <template #item="{ item }">
                   <spacer-special :characterBlock="item"></spacer-special>
                 </template>
@@ -21,111 +16,50 @@
 
               <v-row>
                 <v-col>
-                  <v-select
-                    label="Alignment"
-                    :items="spacerAlignmentList"
-                    v-model="spacerAlignment"
-                    :disabled="!!specialSpacer"
-                  >
-                  </v-select>
+                  <v-select :label="$t('channelForm.alignment')" :items="spacerAlignmentList" v-model="spacerAlignment" :disabled="!!specialSpacer"> </v-select>
                 </v-col>
                 <v-col>
-                  <v-text-field
-                    label="Text"
-                    v-model="spacerText"
-                    :disabled="!!specialSpacer"
-                  >
-                  </v-text-field>
+                  <v-text-field :label="$t('channelForm.text')" v-model="spacerText" :disabled="!!specialSpacer"> </v-text-field>
                 </v-col>
               </v-row>
             </div>
 
-            <v-text-field
-              v-else
-              label="Name"
-              v-model="channelName"
-              :disabled="$store.state.query.loading"
-            >
-            </v-text-field>
+            <v-text-field v-else :label="$t('common.name')" v-model="channelName" :disabled="$store.state.query.loading"> </v-text-field>
 
-            <v-text-field
-              type="password"
-              label="Password"
-              v-model="channelPassword"
-              :disabled="$store.state.query.loading"
-            ></v-text-field>
-            <v-text-field
-              label="Topic"
-              v-model="channelTopic"
-              :disabled="$store.state.query.loading"
-            ></v-text-field>
-            <v-textarea
-              label="Description"
-              v-model="channelDescription"
-              :disabled="$store.state.query.loading"
-            ></v-textarea>
+            <v-text-field type="password" :label="$t('common.password')" v-model="channelPassword" :disabled="$store.state.query.loading"></v-text-field>
+            <v-text-field :label="$t('entity.topic')" v-model="channelTopic" :disabled="$store.state.query.loading"></v-text-field>
+            <v-textarea :label="$t('common.description')" v-model="channelDescription" :disabled="$store.state.query.loading"></v-textarea>
             <v-expansion-panels accordion flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  More Options
+                  {{ $t("misc.moreOptions") }}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-card outlined>
                     <v-card-text>
                       <v-layout wrap>
                         <v-flex xs12>
-                          <v-autocomplete
-                            :items="channelOrderSelection"
-                            label="Sort This Channel After"
-                            v-model="selectedChannelOrder"
-                            :disabled="$store.state.query.loading"
-                          ></v-autocomplete>
+                          <v-autocomplete :items="channelOrderSelection" :label="$t('channelForm.sortAfter')" v-model="selectedChannelOrder" :disabled="$store.state.query.loading"></v-autocomplete>
                         </v-flex>
                         <v-flex md4>
-                          <v-radio-group
-                            label="Max Users"
-                            v-model="channelUnlimitedClients"
-                          >
-                            <v-radio label="Unlimited" :value="1"></v-radio>
-                            <v-radio label="Limited" :value="0"></v-radio>
+                          <v-radio-group :label="$t('entity.maxUsers')" v-model="channelUnlimitedClients">
+                            <v-radio :label="$t('entity.unlimited')" :value="1"></v-radio>
+                            <v-radio :label="$t('entity.limited')" :value="0"></v-radio>
                           </v-radio-group>
-                          <v-text-field
-                            label="Number Of Clients"
-                            v-model="channelMaxClients"
-                            :disabled="!!channelUnlimitedClients"
-                          ></v-text-field>
+                          <v-text-field :label="$t('channelForm.clientCount')" v-model="channelMaxClients" :disabled="!!channelUnlimitedClients"></v-text-field>
                         </v-flex>
                         <v-flex md4>
-                          <v-radio-group
-                            label="Channel Type"
-                            v-model="channelType"
-                          >
-                            <v-radio
-                              label="Temporary"
-                              value="temporary"
-                            ></v-radio>
-                            <v-radio
-                              label="Permanent"
-                              value="permanent"
-                            ></v-radio>
-                            <v-radio
-                              label="Semi-Permanent"
-                              value="semi-permanent"
-                            ></v-radio>
+                          <v-radio-group :label="$t('entity.channelType')" v-model="channelType">
+                            <v-radio :label="$t('entity.temporary')" value="temporary"></v-radio>
+                            <v-radio :label="$t('entity.permanent')" value="permanent"></v-radio>
+                            <v-radio :label="$t('entity.semiPermanent')" value="semi-permanent"></v-radio>
                           </v-radio-group>
                         </v-flex>
                         <v-flex md4>
-                          <v-checkbox
-                            label="Default Channel"
-                            v-model="channelIsDefault"
-                            :disabled="!!initChannelData.channelFlagDefault"
-                          ></v-checkbox>
+                          <v-checkbox :label="$t('entity.defaultChannel')" v-model="channelIsDefault" :disabled="!!initChannelData.channelFlagDefault"></v-checkbox>
                         </v-flex>
                         <v-flex md4>
-                          <v-checkbox
-                            label="Voice Data encrypted"
-                            v-model="channelIsUnencrypted"
-                          ></v-checkbox>
+                          <v-checkbox :label="$t('channelForm.voiceEncrypted')" v-model="channelIsUnencrypted"></v-checkbox>
                         </v-flex>
                       </v-layout>
                     </v-card-text>
@@ -137,22 +71,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              text
-              @click="save"
-              :disabled="this.$store.state.query.loading"
-              color="primary"
-              >OK</v-btn
-            >
-            <v-btn text @click="$router.go(-1)" color="primary">Cancel</v-btn>
-            <v-btn
-              text
-              @click="save"
-              :disabled="this.$store.state.query.loading"
-              color="primary"
-              :class="{ 'd-none': !applyButton }"
-              >Apply</v-btn
-            >
+            <v-btn text @click="save('ok')" :disabled="this.$store.state.query.loading" color="primary">{{ $t("common.ok") }}</v-btn>
+            <v-btn text @click="$router.go(-1)" color="primary">{{ $t("common.cancel") }}</v-btn>
+            <v-btn text @click="save('apply')" :disabled="this.$store.state.query.loading" color="primary" :class="{ 'd-none': !applyButton }">{{ $t("common.apply") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -194,9 +115,9 @@ export default {
       specialSpacer: "",
       spacerAlignmentList: [
         { text: "", value: "" },
-        { text: "left", value: "l" },
-        { text: "center", value: "c" },
-        { text: "right", value: "r" },
+        { text: this.$t("option.left"), value: "l" },
+        { text: this.$t("option.center"), value: "c" },
+        { text: this.$t("option.right"), value: "r" },
       ],
       spacerAlignment: "",
       spacerText: "",
@@ -207,18 +128,13 @@ export default {
       let rootChannelName = {};
       let siblingChannels = this.channels
         .filter((channel) => {
-          return (
-            channel.pid === this.parentChannelId &&
-            channel.cid !== this.$route.params.cid
-          );
+          return channel.pid === this.parentChannelId && channel.cid !== this.$route.params.cid;
         })
         .map((channel) => ({ text: channel.channelName, value: channel.cid }));
 
       // If the current channel is a sub channel
       if (this.parentChannelId !== "0") {
-        let rootChannel = this.channels.find(
-          (channel) => channel.cid === this.parentChannelId
-        );
+        let rootChannel = this.channels.find((channel) => channel.cid === this.parentChannelId);
 
         rootChannelName = rootChannel && rootChannel.channelName;
         // siblingChannels.unshift({text: parentChannel && parentChannel.channelName, value: 0})
@@ -267,9 +183,7 @@ export default {
     },
     channelDescription: {
       get() {
-        return (
-          this.channel.channelDescription && this.channel.channelDescription
-        );
+        return this.channel.channelDescription && this.channel.channelDescription;
       },
       set(description) {
         this.channel.channelDescription = description;
@@ -277,10 +191,7 @@ export default {
     },
     channelUnlimitedClients: {
       get() {
-        return (
-          this.channel.channelFlagMaxclientsUnlimited &&
-          this.channel.channelFlagMaxclientsUnlimited
-        );
+        return this.channel.channelFlagMaxclientsUnlimited && this.channel.channelFlagMaxclientsUnlimited;
       },
       set(limited) {
         this.channel.channelFlagMaxclientsUnlimited = +limited;
@@ -319,9 +230,7 @@ export default {
     },
     channelIsUnencrypted: {
       get() {
-        return typeof this.channel.channelCodecIsUnencrypted !== "undefined"
-          ? !!!this.channel.channelCodecIsUnencrypted
-          : false;
+        return typeof this.channel.channelCodecIsUnencrypted !== "undefined" ? !!!this.channel.channelCodecIsUnencrypted : false;
       },
       set(encrypted) {
         this.channel.channelCodecIsUnencrypted = +!encrypted;
@@ -329,9 +238,7 @@ export default {
     },
     channelIsDefault: {
       get() {
-        return (
-          this.channel.channelFlagDefault && this.channel.channelFlagDefault
-        );
+        return this.channel.channelFlagDefault && this.channel.channelFlagDefault;
       },
       set(flag) {
         this.channel.channelFlagDefault = +flag;
@@ -342,9 +249,7 @@ export default {
     setSpacer() {
       let randomId = Math.floor(Math.random() * 100);
 
-      this.channel.channelName = `[${this.spacerAlignment}spacer${randomId}]${
-        this.specialSpacer || this.spacerText
-      }`;
+      this.channel.channelName = `[${this.spacerAlignment}spacer${randomId}]${this.specialSpacer || this.spacerText}`;
     },
     getServerInfo() {
       return this.$TeamSpeak.execute("serverinfo").then((arr) => arr.pop());
@@ -363,12 +268,12 @@ export default {
 
       return changes;
     },
-    save(e) {
+    save(action) {
       if (this.spacer) this.setSpacer();
 
-      this.$emit("save", this.getChanges(), e);
+      this.$emit("save", this.getChanges(), action);
 
-      if (e.target.textContent.toLowerCase() === "apply") {
+      if (action === "apply") {
         // Save initial channel properties again because they got changed
         let unwatch = this.$watch("channel", (channel) => {
           this.initChannelData = { ...channel };

@@ -18,7 +18,7 @@
         <span>{{ item.text }}</span>
       </v-chip>
       <span v-if="index == maxVisibleChips" class="grey--text caption">
-        (+{{ value.length - maxVisibleChips }} others)
+        (+{{ value.length - maxVisibleChips }} {{ $t('misc.others') }})
       </span>
     </template>
     <template #item="{ item, attrs }">

@@ -6,29 +6,19 @@
           <v-card-title>
             <v-layout wrap justify-space-between>
               <v-flex sm6 xs12>
-                <v-btn
-                  color="error"
-                  :disabled="!Boolean(selectedTableItems.length)"
-                  @click="openRemoveDialog(selectedTableItems)"
-                >
+                <v-btn color="error" :disabled="!Boolean(selectedTableItems.length)" @click="openRemoveDialog(selectedTableItems)">
                   <v-icon left>delete</v-icon>
-                  Remove
+                  {{ $t("apiKey.remove") }}
                 </v-btn>
               </v-flex>
               <v-flex md4 sm6 xs12>
-                <v-text-field
-                  append-icon="search"
-                  label="Search"
-                  v-model="search"
-                ></v-text-field>
+                <v-text-field append-icon="search" :label="$t('common.search')" v-model="search"></v-text-field>
               </v-flex>
             </v-layout>
           </v-card-title>
           <v-card-text>
             <v-data-table
-              :no-data-text="
-                $store.state.query.loading ? '...loading' : $vuetify.noDataText
-              "
+              :no-data-text="$store.state.query.loading ? $t('common.loadingTable') : $vuetify.noDataText"
               :headers="headers"
               :items="clientdblist"
               :search="search"
@@ -46,21 +36,19 @@
                   </template>
                   <v-list>
                     <v-list-item :to="`/client/${item.cldbid}/ban`">
-                      <v-list-item-title> Ban Client </v-list-item-title>
+                      <v-list-item-title>{{ $t("action.banClient") }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="openRemoveDialog([item])">
-                      <v-list-item-title> Delete Client </v-list-item-title>
+                      <v-list-item-title>{{ $t("action.deleteClient") }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
               </template>
               <template #item.clientCreated="{ item }">
-                {{ new Date(item.clientCreated * 1000).toLocaleString() }}
+                {{ new Date(item.clientCreated * 1000).toLocaleString($i18n.locale) }}
               </template>
               <template #item.clientLastconnected="{ item }">
-                {{
-                  new Date(item.clientLastconnected * 1000).toLocaleString()
-                }}
+                {{ new Date(item.clientLastconnected * 1000).toLocaleString($i18n.locale) }}
               </template>
             </v-data-table>
           </v-card-text>
@@ -68,18 +56,18 @@
       </v-flex>
       <v-dialog max-width="500px" v-model="dialog">
         <v-card>
-          <v-card-title> Delete Client </v-card-title>
+          <v-card-title>{{ $t("action.deleteClient") }}</v-card-title>
           <v-card-text>
-            Do you really want to delete
-            <b v-if="clientRemoveList.length === 1">{{
-              clientRemoveList[0].clientNickname
-            }}</b>
-            <b v-else>all selected clients</b> from the list?
+            <template v-if="clientRemoveList.length === 1">
+              {{ $t("action.deleteClient") }} <b>{{ clientRemoveList[0].clientNickname }}</b
+              >?
+            </template>
+            <template v-else>{{ $t("confirm.deleteClients") }}</template>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text @click="dialog = false" color="primary">No</v-btn>
-            <v-btn text @click="deleteClient" color="primary">Yes</v-btn>
+            <v-btn text @click="dialog = false" color="primary">{{ $t("common.no") }}</v-btn>
+            <v-btn text @click="deleteClient" color="primary">{{ $t("common.yes") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -99,31 +87,31 @@ export default {
           sortable: false,
         },
         {
-          text: "Last Nickname",
+          text: this.$t("entity.nickname"),
           value: "clientNickname",
         },
         {
-          text: "Unique Identifier",
+          text: this.$t("entity.uniqueId"),
           value: "clientUniqueIdentifier",
         },
         {
-          text: "Created",
+          text: this.$t("table.created"),
           value: "clientCreated",
         },
         {
-          text: "Last",
+          text: this.$t("table.last"),
           value: "clientLastconnected",
         },
         {
-          text: "Total",
+          text: this.$t("table.total"),
           value: "clientTotalconnections",
         },
         {
-          text: "Last IP",
+          text: this.$t("table.lastIp"),
           value: "clientLastip",
         },
         {
-          text: "Description",
+          text: this.$t("common.description"),
           value: "clientDescription",
         },
       ],
