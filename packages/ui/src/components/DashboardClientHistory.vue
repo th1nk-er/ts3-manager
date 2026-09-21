@@ -122,6 +122,17 @@ export default {
       }
     );
   },
+  watch: {
+    "$i18n.locale"() {
+      if (!this.chart) return;
+
+      this.chart.data.datasets[0].label = this.$t(
+        "dashboard.uniqueClientConnections"
+      );
+      this.chart.data.datasets[0].data = this.clientConnections;
+      this.chart.update();
+    },
+  },
 };
 </script>
 

@@ -71,7 +71,16 @@
 export default {
   data() {
     return {
-      headers: [
+      complaints: [],
+      selected: [],
+      dialog: false,
+      selectedComplaints: [],
+      rowsPerPage: [25, 50, 75, -1],
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: "",
           align: "start",
@@ -89,13 +98,8 @@ export default {
           text: this.$t("entity.reason"),
           value: "message",
         },
-      ],
-      complaints: [],
-      selected: [],
-      dialog: false,
-      selectedComplaints: [],
-      rowsPerPage: [25, 50, 75, -1],
-    };
+      ];
+    },
   },
   methods: {
     getComplainList() {

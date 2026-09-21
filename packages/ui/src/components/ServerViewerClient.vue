@@ -114,7 +114,6 @@ export default {
       pokeClientDialog: false,
       pokeMessage: "",
       reason: "",
-      destination: "",
       reasonid: null,
     };
   },
@@ -126,6 +125,18 @@ export default {
         return "volume_off";
       } else if (this.client.clientInputMuted) {
         return "mic_off";
+      }
+    },
+  },
+  computed: {
+    destination() {
+      switch (this.reasonid) {
+        case 4:
+          return this.$t("entity.channel");
+        case 5:
+          return this.$t("entity.server");
+        default:
+          return "";
       }
     },
   },
@@ -147,14 +158,6 @@ export default {
       // 4 = kick form current channel into default channel
       // 5 = kick from server
       this.reasonid = reasonid;
-
-      switch (this.reasonid) {
-        case 4:
-          this.destination = this.$t("entity.channel");
-          break;
-        case 5:
-          this.destination = this.$t("entity.server");
-      }
 
       this.kickClientDialog = true;
     },

@@ -51,7 +51,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="addClients" :disabled="!addSelection.length">{{ $t("common.create") }}</v-btn>
+            <v-btn text color="primary" @click="addClients" :disabled="!addSelection.length">{{ $t("common.add") }}</v-btn>
             <v-btn text color="primary" @click="addDialog = false">{{ $t("common.cancel") }}</v-btn>
           </v-card-actions>
         </v-card>

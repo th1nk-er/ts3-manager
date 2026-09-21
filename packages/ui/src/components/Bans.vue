@@ -80,7 +80,17 @@
 export default {
   data() {
     return {
-      headers: [
+      banlist: [],
+      selectedTableItems: [],
+      dialog: false,
+      rowsPerPage: [25, 50, 75, -1],
+      filter: "",
+      banRemoveList: [],
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: "",
           algin: "start",
@@ -98,14 +108,8 @@ export default {
           text: this.$t("apiKey.expiresAt"),
           value: "duration",
         },
-      ],
-      banlist: [],
-      selectedTableItems: [],
-      dialog: false,
-      rowsPerPage: [25, 50, 75, -1],
-      filter: "",
-      banRemoveList: [],
-    };
+      ];
+    },
   },
   computed: {
     // To enable the search for the column "Name/IP/UID"

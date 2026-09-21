@@ -32,13 +32,15 @@
           v-for="notification in notifications"
           :href="notification.link"
           target="_blank"
-          :key="notification.title"
+          :key="`${notification.titleKey}-${notification.params.version}`"
         >
           <v-list-item-action>
             <v-icon>{{ notification.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-html="notification.title"></v-list-item-title>
+            <v-list-item-title
+              v-html="$t(notification.titleKey, notification.params)"
+            ></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -154,8 +156,13 @@ export default {
         ? true
         : false;
     },
-    createNotification({ link = "", title, icon = "mdi-information" }) {
-      this.notifications.push({ link, title, icon });
+    createNotification({
+      link = "",
+      titleKey,
+      params = {},
+      icon = "mdi-information",
+    }) {
+      this.notifications.push({ link, titleKey, params, icon });
     },
     async init() {
       try {
@@ -170,9 +177,10 @@ export default {
         ) {
           this.createNotification({
             link: this.URL.ts3Manager[1],
-            title: this.$t("feedback.tsManagerUpdate", {
+            titleKey: "feedback.tsManagerUpdate",
+            params: {
               version: this.latestTSMRelease.name,
-            }),
+            },
             icon: "mdi-update",
           });
         }
@@ -185,9 +193,10 @@ export default {
         ) {
           this.createNotification({
             link: `https://teamspeak.com`,
-            title: this.$t("feedback.teamSpeakUpdate", {
+            titleKey: "feedback.teamSpeakUpdate",
+            params: {
               version: this.latestTeamSpeakVersion,
-            }),
+            },
             icon: "mdi-update",
           });
         }

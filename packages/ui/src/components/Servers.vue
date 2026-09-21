@@ -110,7 +110,17 @@ export default {
   },
   data() {
     return {
-      headers: [
+      servers: [],
+      stopDialog: false,
+      deleteDialog: false,
+      counterIds: [],
+      rowsPerPage: [25, 50, 75, -1],
+      queryUser: {},
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: "",
           align: "start",
@@ -148,16 +158,8 @@ export default {
           value: "virtualserverStatus",
           sortable: false,
         },
-      ],
-      servers: [],
-      stopDialog: false,
-      deleteDialog: false,
-      counterIds: [],
-      rowsPerPage: [25, 50, 75, -1],
-      queryUser: {},
-    };
-  },
-  computed: {
+      ];
+    },
     joinedServerId: {
       get() {
         return this.queryUser.virtualserverId;

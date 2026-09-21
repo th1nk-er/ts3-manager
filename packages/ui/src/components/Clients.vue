@@ -79,7 +79,18 @@
 export default {
   data() {
     return {
-      headers: [
+      clientdblist: [],
+      search: "",
+      rowsPerPage: [25, 50, 75, -1],
+      dialog: false,
+      clientRemoveList: [],
+      selectedTableItems: [],
+      clientAvatarDialog: false,
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: "",
           value: "name",
@@ -114,15 +125,8 @@ export default {
           text: this.$t("common.description"),
           value: "clientDescription",
         },
-      ],
-      clientdblist: [],
-      search: "",
-      rowsPerPage: [25, 50, 75, -1],
-      dialog: false,
-      clientRemoveList: [],
-      selectedTableItems: [],
-      clientAvatarDialog: false,
-    };
+      ];
+    },
   },
   methods: {
     openRemoveDialog(clients) {

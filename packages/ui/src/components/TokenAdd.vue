@@ -64,10 +64,6 @@ export default {
   data() {
     return {
       token: undefined,
-      tokenTypes: [
-        { text: this.$t("entity.serverGroup"), value: 0 },
-        { text: this.$t("entity.channelGroup"), value: 1 },
-      ],
       selectedType: undefined,
       selectedGroup: undefined,
       selectedChannel: undefined,
@@ -77,6 +73,12 @@ export default {
     };
   },
   computed: {
+    tokenTypes() {
+      return [
+        { text: this.$t("entity.serverGroup"), value: 0 },
+        { text: this.$t("entity.channelGroup"), value: 1 },
+      ];
+    },
     availableGroups() {
       return this.groups.map((group) => {
         return {

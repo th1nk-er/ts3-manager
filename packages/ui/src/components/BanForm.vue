@@ -75,7 +75,12 @@ export default {
   },
   data() {
     return {
-      timeUnits: [
+      selectedUnit: 1,
+    };
+  },
+  computed: {
+    timeUnits() {
+      return [
         {
           text: this.$t("option.seconds"),
           value: 1,
@@ -96,11 +101,8 @@ export default {
           text: this.$t("option.permanent"),
           value: 0,
         },
-      ],
-      selectedUnit: 1,
-    };
-  },
-  computed: {
+      ];
+    },
     ip: {
       get() {
         return this.ban.ip;

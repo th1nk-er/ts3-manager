@@ -57,7 +57,25 @@ export default {
       lastPosition: undefined,
       itemsPerPage: -1,
       filter: "",
-      headers: [
+      level: {
+        debug: true,
+        error: true,
+        warning: true,
+        info: true,
+      },
+      levelColors: {
+        debug: "primary",
+        error: "error",
+        warning: "warning",
+        info: "info",
+      },
+      selectedTimezone: "local",
+      scrolledBottom: false,
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("log.timestamp"),
           value: "timestamp",
@@ -78,21 +96,10 @@ export default {
           value: "msg",
           sortable: false,
         },
-      ],
-      level: {
-        debug: true,
-        error: true,
-        warning: true,
-        info: true,
-      },
-      levelColors: {
-        debug: "primary",
-        error: "error",
-        warning: "warning",
-        info: "info",
-      },
-      selectedTimezone: "local",
-      timezones: [
+      ];
+    },
+    timezones() {
+      return [
         {
           text: this.$t("option.utcTime"),
           value: "utc",
@@ -101,11 +108,8 @@ export default {
           text: this.$t("option.localTime"),
           value: "local",
         },
-      ],
-      scrolledBottom: false,
-    };
-  },
-  computed: {
+      ];
+    },
     /**
      * Parse original log string into a javascript object.
      * @return {Array}

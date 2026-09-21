@@ -98,7 +98,23 @@ export default {
     return {
       availablePermissions: [], // All available permissions that could be set
       onlyGranted: true, // Only show granted Permissions on default
-      availableHeaders: [
+      rowsPerPage: [50, 100, 150, -1],
+      filter: "", // Filter table content
+      dialog: false, // Shows the edit lightbox
+      deleteDialog: false,
+      editedPermission: {
+        permdesc: "",
+        permname: "",
+        permid: null,
+        permnegated: null,
+        permskip: null,
+        permvalue: null,
+      },
+    };
+  },
+  computed: {
+    availableHeaders() {
+      return [
         {
           text: "",
           align: "start",
@@ -129,22 +145,8 @@ export default {
           value: "permnegated",
           sortable: false,
         },
-      ],
-      rowsPerPage: [50, 100, 150, -1],
-      filter: "", // Filter table content
-      dialog: false, // Shows the edit lightbox
-      deleteDialog: false,
-      editedPermission: {
-        permdesc: "",
-        permname: "",
-        permid: null,
-        permnegated: null,
-        permskip: null,
-        permvalue: null,
-      },
-    };
-  },
-  computed: {
+      ];
+    },
     permissionlist() {
       let list = this.availablePermissions.map((permission) => {
         let permissionValues = this.grantedPermissions.find((perm) => perm.permid === permission.permid)

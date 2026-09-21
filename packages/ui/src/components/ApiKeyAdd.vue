@@ -41,17 +41,21 @@ export default {
   },
   data() {
     return {
-      scopes: [
-        { text: this.$t("option.manage"), value: "manage" },
-        { text: this.$t("option.write"), value: "write" },
-        { text: this.$t("option.read"), value: "read" },
-      ],
       selectedScope: undefined,
       dbClients: [],
       selectedClient: null,
       apiKey: "",
       lifetime: "", // in days
     };
+  },
+  computed: {
+    scopes() {
+      return [
+        { text: this.$t("option.manage"), value: "manage" },
+        { text: this.$t("option.write"), value: "write" },
+        { text: this.$t("option.read"), value: "read" },
+      ];
+    },
   },
   methods: {
     getDbClients() {

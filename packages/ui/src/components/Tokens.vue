@@ -69,7 +69,14 @@ export default {
     return {
       dialog: false,
       tokens: [],
-      headers: [
+      rowsPerPage: [25, 50, 75, -1],
+      selectedTableItems: [],
+      tokenRemoveList: [],
+    };
+  },
+  computed: {
+    headers() {
+      return [
         { text: "", value: "actions", align: "start", sortable: false },
         { text: this.$t("token.privilegeKey"), value: "token" },
         { text: this.$t("token.type"), value: "tokenType" },
@@ -77,11 +84,8 @@ export default {
         { text: this.$t("entity.channel"), value: "tokenId2" },
         { text: this.$t("token.created"), value: "tokenCreated" },
         { text: this.$t("common.description"), value: "tokenDescription" },
-      ],
-      rowsPerPage: [25, 50, 75, -1],
-      selectedTableItems: [],
-      tokenRemoveList: [],
-    };
+      ];
+    },
   },
   methods: {
     getTokenList() {

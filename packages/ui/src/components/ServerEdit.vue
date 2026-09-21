@@ -436,27 +436,33 @@ export default {
     return {
       serverInfo: {},
       serverInfoCopy: {},
-      messageModes: [
-        { text: this.$t("serverOption.noMessage"), value: 0 },
-        { text: this.$t("serverOption.logMessage"), value: 1 },
-        { text: this.$t("serverOption.modalMessage"), value: 2 },
-        { text: this.$t("serverOption.modalExit"), value: 3 },
-      ],
-      bannerModes: [
-        { text: this.$t("serverOption.noAdjust"), value: 0 },
-        { text: this.$t("serverOption.ignoreAspect"), value: 1 },
-        { text: this.$t("serverOption.keepAspect"), value: 2 },
-      ],
-      encryptionModes: [
-        { text: this.$t("serverOption.perChannel"), value: 0 },
-        { text: this.$t("serverOption.globallyOff"), value: 1 },
-        { text: this.$t("serverOption.globallyOn"), value: 2 },
-      ],
       serverGroups: [],
       channelGroups: [],
     };
   },
   computed: {
+    messageModes() {
+      return [
+        { text: this.$t("serverOption.noMessage"), value: 0 },
+        { text: this.$t("serverOption.logMessage"), value: 1 },
+        { text: this.$t("serverOption.modalMessage"), value: 2 },
+        { text: this.$t("serverOption.modalExit"), value: 3 },
+      ];
+    },
+    bannerModes() {
+      return [
+        { text: this.$t("serverOption.noAdjust"), value: 0 },
+        { text: this.$t("serverOption.ignoreAspect"), value: 1 },
+        { text: this.$t("serverOption.keepAspect"), value: 2 },
+      ];
+    },
+    encryptionModes() {
+      return [
+        { text: this.$t("serverOption.perChannel"), value: 0 },
+        { text: this.$t("serverOption.globallyOff"), value: 1 },
+        { text: this.$t("serverOption.globallyOn"), value: 2 },
+      ];
+    },
     weblistEnabled: {
       get() {
         return this.serverInfo.virtualserverWeblistEnabled ? true : false;

@@ -199,11 +199,6 @@ export default {
       selectedGroup: {},
       forceDeletion: false, // Delete group even if there are clients
       selectedGroupType: 1,
-      groupTypes: [
-        { text: this.$t("option.regularGroup"), value: 1 },
-        { text: this.$t("option.templateGroup"), value: 0 },
-        { text: this.$t("option.queryGroup"), value: 2 },
-      ],
       overwriteGroup: false,
       selectedTargetGroup: {},
       selectedTargetGroupType: 1,
@@ -211,6 +206,13 @@ export default {
     };
   },
   computed: {
+    groupTypes() {
+      return [
+        { text: this.$t("option.regularGroup"), value: 1 },
+        { text: this.$t("option.templateGroup"), value: 0 },
+        { text: this.$t("option.queryGroup"), value: 2 },
+      ];
+    },
     allGroups() {
       return [
         { header: this.$t("group.regular") },

@@ -52,7 +52,15 @@
 export default {
   data() {
     return {
-      headers: [
+      apiKeys: [],
+      dbClients: [],
+      selectedKeys: [],
+      deleteDialog: false,
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("entity.client"),
           sortable: true,
@@ -77,14 +85,8 @@ export default {
           align: "start",
           value: "expiresAt",
         },
-      ],
-      apiKeys: [],
-      dbClients: [],
-      selectedKeys: [],
-      deleteDialog: false,
-    };
-  },
-  computed: {
+      ];
+    },
     tableItems() {
       return this.apiKeys.map((key) => {
         let client = this.dbClients.find(

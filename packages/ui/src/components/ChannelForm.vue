@@ -113,17 +113,19 @@ export default {
       serverInfo: {},
       specialSpacerList: ["", "---", "...", "-.-", "___", "-.."],
       specialSpacer: "",
-      spacerAlignmentList: [
-        { text: "", value: "" },
-        { text: this.$t("option.left"), value: "l" },
-        { text: this.$t("option.center"), value: "c" },
-        { text: this.$t("option.right"), value: "r" },
-      ],
       spacerAlignment: "",
       spacerText: "",
     };
   },
   computed: {
+    spacerAlignmentList() {
+      return [
+        { text: "", value: "" },
+        { text: this.$t("option.left"), value: "l" },
+        { text: this.$t("option.center"), value: "c" },
+        { text: this.$t("option.right"), value: "r" },
+      ];
+    },
     channelOrderSelection() {
       let rootChannelName = {};
       let siblingChannels = this.channels

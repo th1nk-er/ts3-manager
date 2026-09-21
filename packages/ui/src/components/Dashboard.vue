@@ -54,13 +54,17 @@ export default {
       clientDbListLoaded: false,
       clientList: [],
       serverInfo: {},
-      daysPicker: [
+    };
+  },
+  computed: {
+    daysPicker() {
+      return [
         { text: this.$t("option.last30"), value: 30 },
         { text: this.$t("option.last60"), value: 60 },
         { text: this.$t("option.last90"), value: 90 },
         { text: this.$t("option.allDays"), value: 0 },
-      ],
-    };
+      ];
+    },
   },
   methods: {
     testEvent(e) {
